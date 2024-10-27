@@ -19,8 +19,8 @@ const promisePool = pool.promise();
 
 // Read the SSL certificate files from the certbot folder
 const server = https.createServer({
-  cert: fs.readFileSync("certbot/fullchain.pem"),
-  key: fs.readFileSync("certbot/privkey.pem"),
+  cert: fs.readFileSync("../certbot/fullchain.pem"),
+  key: fs.readFileSync("../certbot/privkey.pem"),
 });
 
 // Create a secure WebSocket server on top of the HTTPS server
