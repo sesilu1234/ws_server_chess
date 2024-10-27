@@ -1,3 +1,5 @@
+const fs = require("fs");
+const https = require("https");
 const WebSocket = require("ws");
 const mysql = require("mysql2");
 
@@ -15,7 +17,14 @@ const pool = mysql.createPool({
 // Promisify the pool for async/await support
 const promisePool = pool.promise();
 
-const wss = new WebSocket.Server({ port: 8089 });
+// Read the SSL certificate files from the certbot folder
+const server = https.createServer({
+  cert: fs.readFileSync("certbot/fullchain.pem"),
+  key: fs.readFileSync("certbot/privkey.pem"),
+});
+
+// Create a secure WebSocket server on top of the HTTPS server
+const wss = new WebSocket.Server({ server });
 
 let games = []; // Store ongoing games
 let clients = []; // Store all connected clients
@@ -37,19 +46,16 @@ wss.on("connection", (ws) => {
 
           const sql = "CALL insert_game_1(?, ?, ?, ?, ?, ?)";
 
-    try {
-        const [rows] = await promisePool.query(sql, [
-            payload.id,
-            payload.player1,
-            payload.color1,
-            payload.player2,
-            payload.color2,
-            time,
-        ]);
+          try {
+            const [rows] = await promisePool.query(sql, [
+              payload.id,
+              payload.player1,
+              payload.color1,
+              payload.player2,
+              payload.color2,
+              time,
+            ]);
 
-
-
-        
             console.log("Game inserted successfully with ID:", payload.id);
           } catch (error) {
             console.error("Error inserting game:", error);
@@ -67,7 +73,6 @@ wss.on("connection", (ws) => {
 
         case "join_game":
           const game = games.find((g) => g.id == payload.id);
-          console.log("aweiiasd");
           if (game) {
             const client = clients.find((c) => c.id == payload.id);
             client.player2 = ws;
@@ -95,7 +100,6 @@ wss.on("connection", (ws) => {
             client.player2.send(
               JSON.stringify({ type: "start_game", payload: sendJSON2 })
             );
-            console.log("inf sent");
           } else {
             ws.send(
               JSON.stringify({
@@ -117,8 +121,6 @@ wss.on("connection", (ws) => {
             pawn_promotion: payload.pawn_promotion,
             castling: payload.castle,
           };
-          
-
 
           if (client.player1 === ws) {
             client.player2.send(
@@ -129,7 +131,6 @@ wss.on("connection", (ws) => {
               JSON.stringify({ type: "move", payload: sendJSON })
             );
           }
-          console.log("adadsasd");
           break;
 
         default:
@@ -140,8 +141,9 @@ wss.on("connection", (ws) => {
       console.error("Error handling message:", error);
     }
   });
-
-
 });
 
-console.log("WebSocket server is running on ws://localhost:8089");
+// Start the HTTPS server
+server.listen(8089, () => {
+  console.log("WebSocket server is running on wss://localhost:8089");
+});
