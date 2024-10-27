@@ -144,6 +144,6 @@ wss.on("connection", (ws) => {
 });
 
 // Start the HTTPS server
-server.listen(8089, () => {
-  console.log("WebSocket server is running on wss://localhost:8089");
+server.listen(8080, () => {
+  console.log("WebSocket server is running on wss://localhost:8080");
 });
