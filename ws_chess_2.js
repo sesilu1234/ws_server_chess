@@ -44,7 +44,7 @@ wss.on("connection", (ws) => {
           const isoString = now.toISOString();
           const time = isoString.replace("T", " ").substring(0, 19);
 
-          const sql = "CALL insert_game_1(?, ?, ?, ?, ?, ?)";
+          const sql = "CALL insert_game_1(?, ?, ?, ?, ?, ?, ?)";
 
           try {
             const [rows] = await promisePool.query(sql, [
@@ -53,7 +53,9 @@ wss.on("connection", (ws) => {
               payload.color1,
               payload.player2,
               payload.color2,
-              time,
+              payload.countdown_time,
+              time
+              
             ]);
 
             console.log("Game inserted successfully with ID:", payload.id);
@@ -67,6 +69,7 @@ wss.on("connection", (ws) => {
             color1: payload.color1,
             player2: payload.player2,
             color2: payload.color2,
+            countdown_time: payload.countdown_time
           });
           clients.push({ id: payload.id, player1: ws, player2: undefined });
           break;
@@ -83,6 +86,7 @@ wss.on("connection", (ws) => {
               color1: game.color1,
               player2: game.player2,
               color2: game.color2,
+              countdown_time: game.countdown_time,
               round: 1,
             };
             const sendJSON2 = {
@@ -91,6 +95,7 @@ wss.on("connection", (ws) => {
               color1: game.color2,
               player2: game.player1,
               color2: game.color1,
+              countdown_time: game.countdown_time,
               round: 2,
             };
 
