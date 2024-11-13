@@ -33,6 +33,8 @@ wss.on("connection", (ws) => {
   clients.push(ws);
   console.log("Client connected. Total clients:", clients.length);
 
+  console.log(clients, games);
+
   ws.on("message", async (data) => {
     try {
       const message = JSON.parse(data);
@@ -147,6 +149,19 @@ wss.on("connection", (ws) => {
     }
   });
 });
+
+
+ws.on("close", () => {
+  
+  clients = clients.filter((client) => client.player1 !== ws && client.player2 !== ws );
+  
+  games = games.filter((g) => g.player1 === ws || g.player2 === ws); });
+
+  console.log(clients, games);
+  
+
+  
+  
 
 // Start the HTTPS server
 server.listen(8080, () => {
