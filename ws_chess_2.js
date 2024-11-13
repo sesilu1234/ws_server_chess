@@ -148,7 +148,7 @@ wss.on("connection", (ws) => {
       console.error("Error handling message:", error);
     }
   });
-});
+
 
 
 ws.on("close", () => {
@@ -160,7 +160,7 @@ ws.on("close", () => {
   console.log(clients, games);
   
 
-  
+});
   
 
 // Start the HTTPS server
