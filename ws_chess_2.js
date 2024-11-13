@@ -33,7 +33,7 @@ wss.on("connection", (ws) => {
   clients.push(ws);
   console.log("Client connected. Total clients:", clients.length);
 
-  console.log(clients, games);
+  
 
   ws.on("message", async (data) => {
     try {
