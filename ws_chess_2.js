@@ -157,7 +157,7 @@ ws.on("close", () => {
   
   games = games.filter((g) => g.player1 === ws || g.player2 === ws); });
 
-  console.log(clients, games);
+  console.log(clients.length, games.length);
   
 
 });
