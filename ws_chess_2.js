@@ -2,20 +2,26 @@ const fs = require("fs");
 const https = require("https");
 const WebSocket = require("ws");
 const mysql = require("mysql2");
+const dotenv = require('dotenv');
 
-// Create a connection pool
+// Load environment variables from .env file
+dotenv.config(); 
+
+
+
 const pool = mysql.createPool({
-  host: "database-1.cnw6moiseb92.eu-north-1.rds.amazonaws.com",
-  user: "sesilu1234",
-  password: "Emilborel1234",
-  database: "chess_game_1",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   waitForConnections: true,
-  connectionLimit: 10, // Limit number of connections in the pool
-  queueLimit: 0,
+  connectionLimit: process.env.DB_CONNECTION_LIMIT,
+  queueLimit: process.env.DB_QUEUE_LIMIT,
 });
 
-// Promisify the pool for async/await support
+// Optional: Promisify the pool for async/await support
 const promisePool = pool.promise();
+
 
 // Read the SSL certificate files from the certbot folder
 const server = https.createServer({
