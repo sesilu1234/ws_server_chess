@@ -261,7 +261,7 @@ wss.on("connection", (ws) => {
 
         const sql_id = "SELECT * FROM created_games WHERE id = ?";
 
-        const game = await promisePool.query(sql_id, [
+        const game_sql = await promisePool.query(sql_id, [
           payload.id,
           
         ]);
@@ -269,43 +269,43 @@ wss.on("connection", (ws) => {
         
 
 
-          if (game) {
+          if (game_sql) {
 
-            const client = games.get(payload.id); // Retrieve the game object by its ID
+            const game = games.get(payload.id); // Retrieve the game object by its ID
 
-            console.log(games);
-            client.player2.client = ws;
+            
+            game.player2.client = ws;
             
 
             const sendJSON1 = {
-              id: game.id,
-              player1: game.player1,
-              color1: game.color1,
-              player2: game.player2,
-              color2: game.color2,
-              countdown_time: game.countdown_time,
-              time_modality: game.time_modality,
+              id: game_sql.id,
+              player1: game_sql.player1,
+              color1: game_sql.color1,
+              player2: game_sql.player2,
+              color2: game_sql.color2,
+              countdown_time: game_sql.countdown_time,
+              time_modality: game_sql.time_modality,
               round: 1,
             };
             const sendJSON2 = {
-              id: game.id,
-              player1: game.player2,
-              color1: game.color2,
-              player2: game.player1,
-              color2: game.color1,
-              countdown_time: game.countdown_time,
-              time_modality: game.time_modality,
+              id: game_sql.id,
+              player1: game_sql.player2,
+              color1: game_sql.color2,
+              player2: game_sql.player1,
+              color2: game_sql.color1,
+              countdown_time: game_sql.countdown_time,
+              time_modality: game_sql.time_modality,
               round: 2,
             };
 
-            client.player1.send(
+            game.player1.client.send(
               JSON.stringify({ type: "start_game", payload: sendJSON1 })
             );
-            client.player2.send(
+            game.player2.client.send(
               JSON.stringify({ type: "start_game", payload: sendJSON2 })
             );
 
-            games.get(payload.id).timestart = Date.now();
+            game.timestart = Date.now();
 
           } else {
             ws.send(
@@ -319,9 +319,9 @@ wss.on("connection", (ws) => {
 
         case "move":
 
-          const client = games.get(payload.id);
+          const game = games.get(payload.id);
 
-          if (client.time_modality == "PerPlayer")   {   element[element.currentplayer].time -= ((Date.now() - client.timestart))      }
+          if (game.time_modality == "PerPlayer")   {   game[game.currentplayer].time -= ((Date.now() - client.timestart))      }
 
 
            
