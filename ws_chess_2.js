@@ -35,8 +35,8 @@ dotenv.config();
 
  // al enviar movimiento, delete de minus10, siempre...eso si, primero cambio el undefined y despues deleteo en mins10, no vaya a ser
 
- const timer_games_plus10 = Map();
- const timer_games_minus10 = Map();
+ const timer_games_plus10 = new Map();
+ const timer_games_minus10 = new Map();
 
  
  
