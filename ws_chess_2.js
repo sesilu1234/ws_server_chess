@@ -175,11 +175,14 @@ const server = https.createServer({
 const wss = new WebSocket.Server({ server });
 
 
-let clients = new Map(); // Store all connected clients
+let clients = new Array(); // Store all connected games
+
+let games = new Map(); // Store all connected games
+
 
 wss.on("connection", (ws) => {
   clients.push(ws);
-  console.log("Client connected. Total clients:", clients.length);
+  console.log("Client connected. Total games:", clients.length);
 
   
 
@@ -228,7 +231,7 @@ wss.on("connection", (ws) => {
 
 
           
-        clients.set(payload.id, {
+        games.set(payload.id, {
           player1: {
             client: ws,
             name: payload.player1,
@@ -266,7 +269,7 @@ wss.on("connection", (ws) => {
 
           if (game) {
 
-            const client = clients.get(payload.id); // Retrieve the game object by its ID
+            const client = games.get(payload.id); // Retrieve the game object by its ID
             client.player2.client = ws;
             
 
@@ -298,7 +301,7 @@ wss.on("connection", (ws) => {
               JSON.stringify({ type: "start_game", payload: sendJSON2 })
             );
 
-            clients.get(payload.id).timestart = Date.now();
+            games.get(payload.id).timestart = Date.now();
 
           } else {
             ws.send(
@@ -312,7 +315,7 @@ wss.on("connection", (ws) => {
 
         case "move":
 
-          const client = clients.get(payload.id);
+          const client = games.get(payload.id);
 
           if (client.time_modality == "PerPlayer")   {   element[element.currentplayer].time -= ((Date.now() - client.timestart))      }
 
@@ -391,13 +394,13 @@ wss.on("connection", (ws) => {
 
 ws.on("close", () => {
   
-  clients = clients.filter((client) => client.player1 !== ws && client.player2 !== ws );
+  games = games.filter((client) => client.player1 !== ws && client.player2 !== ws );
   
 
 
 
 
-  console.log("Client gone, now clients and games length is: ", clients.length);
+  console.log("Client gone, now games and games length is: ", games.length);
 
 
   });
