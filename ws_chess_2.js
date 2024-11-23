@@ -266,10 +266,14 @@ wss.on("connection", (ws) => {
           
         ]);
 
+        console.log(game);
+
 
           if (game) {
 
             const client = games.get(payload.id); // Retrieve the game object by its ID
+
+            console.log(client);
             client.player2.client = ws;
             
 
