@@ -223,7 +223,7 @@ wss.on("connection", (ws) => {
               
             ]);
 
-            console.log("Game inserted successfully with ID:", payload.id);
+            console.log("Game inserted successfully with ID:", id);
           } catch (error) {
             console.error("Error inserting game:", error);
           }
@@ -394,7 +394,7 @@ wss.on("connection", (ws) => {
 
 ws.on("close", () => {
   
-  games = games.filter((client) => client.player1 !== ws && client.player2 !== ws );
+  
   
 
 
