@@ -175,7 +175,7 @@ const server = https.createServer({
 const wss = new WebSocket.Server({ server });
 
 
-let clients = Map(); // Store all connected clients
+let clients = new Map(); // Store all connected clients
 
 wss.on("connection", (ws) => {
   clients.push(ws);
