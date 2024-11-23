@@ -298,6 +298,15 @@ wss.on("connection", (ws) => {
               round: 2,
             };
 
+
+
+
+            console.log(game_sql);
+            console.log(sendJSON1)
+
+
+
+
             game.player1.client.send(
               JSON.stringify({ type: "start_game", payload: sendJSON1 })
             );
