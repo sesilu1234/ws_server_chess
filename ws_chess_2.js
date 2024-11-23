@@ -231,7 +231,7 @@ wss.on("connection", (ws) => {
 
 
           
-        games.set(payload.id, {
+        games.set(id, {
           player1: {
             client: ws,
             name: payload.player1,
@@ -266,7 +266,7 @@ wss.on("connection", (ws) => {
           
         ]);
 
-        console.log(games);
+        
 
 
           if (game) {
