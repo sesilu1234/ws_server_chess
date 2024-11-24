@@ -50,9 +50,9 @@ dotenv.config();
  
      for (let [key, element] of timer_games_plus10) {  
     
-
+      console.log(timer_games_minus10);
  
-        console.log(element[element.currentplayer].time - (currentTime - element.timestart) );
+       
        
          if (element[element.currentplayer].time - (currentTime - element.timestart) < 15000) {
              timer_games_minus10.set(key, { ...element });
@@ -65,7 +65,7 @@ dotenv.config();
  
  const per_player_minus10 = () => {
 
-    console.log(timer_games_minus10);
+  console.log(timer_games_minus10);
  
      const currentTime = Date.now();
  
@@ -85,6 +85,7 @@ dotenv.config();
                );
 
                timer_games_minus10.delete(key);
+               timer_games_plus10.delete(key);
 
          }
      }
