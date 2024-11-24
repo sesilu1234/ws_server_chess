@@ -341,7 +341,7 @@ wss.on("connection", (ws) => {
             turn: payload.turn,
             pawn_promotion: payload.pawn_promotion,
             castling: payload.castle,
-            time_left: game.currentplayer === "player1" ? game.player2.time : game.player1.time1
+            time_left: game.currentplayer === "player1" ? game.player2.time : game.player1.time
           };
           
          
