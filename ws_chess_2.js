@@ -328,7 +328,7 @@ wss.on("connection", (ws) => {
 
           const game = games.get(payload.id);
 
-          if (game.time_modality == "PerPlayer")   {   game[game.currentplayer].time -= ((Date.now() - game.timestart))      }
+          if (game.time_modality == "perPlayer")   {   game[game.currentplayer].time -= ((Date.now() - game.timestart))      }
 
 
           console.log(game);
