@@ -48,11 +48,10 @@ dotenv.config();
  
      const currentTime = Date.now();
  
-     for (let element of timer_games_plus10) {  
-      console.log(element);
-      console.log(element[element.currentplayer] );
-      console.log(element.timestart );
-      console.log(currentTime );
+     for (let [key, element] of timer_games_plus10) {  
+      
+
+      
 
  
         console.log(element[element.currentplayer] - (currentTime - element.timestart) );
