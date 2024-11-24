@@ -71,10 +71,10 @@ dotenv.config();
              timer_games_minus10.delete(element);
  
              element.player1.client.send(
-                 JSON.stringify({ type: "end_game", payload: {motive : "end_time", currentplayer: element.currentplayer } })
+                 JSON.stringify({ type: "end_game", payload: {motive : "end_time", currentplayer: element[element.currentplayer].name } })
                );
                element.player2.client.send(
-                 JSON.stringify({ type: "end_game", payload: {motive : "end_time", currentplayer: element.currentplayer } })
+                 JSON.stringify({ type: "end_game", payload: {motive : "end_time", currentplayer: element[element.currentplayer].name } })
                );
          }
      }
