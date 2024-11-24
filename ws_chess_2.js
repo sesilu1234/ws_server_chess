@@ -316,7 +316,11 @@ wss.on("connection", (ws) => {
             );
 
             game.timestart = Date.now();
-            timer_games_plus10.push(game);
+
+
+            const x = [match.id, map1.get(match.id)]; 
+            timer_games_plus10.set(x[0], x[1]);    
+            
 
           } else {
             ws.send(
