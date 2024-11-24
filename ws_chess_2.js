@@ -331,7 +331,7 @@ wss.on("connection", (ws) => {
           if (game.time_modality == "PerPlayer")   {   game[game.currentplayer].time -= ((Date.now() - game.timestart))      }
 
 
-          console.log("eiii999923");
+          console.log(game);
 
 
           const sendJSON = {
@@ -344,7 +344,7 @@ wss.on("connection", (ws) => {
             time_left: game.currentplayer === "player1" ? game.player2.time : game.player1.time1
           };
           
-          console.log(sendJSON);
+         
 
 
           if (game.player1.client === ws) {
