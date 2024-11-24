@@ -70,7 +70,7 @@ dotenv.config();
      for (let element of timer_games_minus10) {  
  
        
-         if (element[element.currentplayer] - (currentTime - element.timestart) < -0.2) {
+         if (element[element.currentplayer].time - (currentTime - element.timestart) < -0.2) {
              
              
              timer_games_minus10.delete(element);
