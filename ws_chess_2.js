@@ -257,7 +257,7 @@ wss.on("connection", (ws) => {
           break;
 
         case "join_game":
-
+        console.log("edideidede");
 
         const sql_id = "SELECT * FROM created_games WHERE id = ?";
 
