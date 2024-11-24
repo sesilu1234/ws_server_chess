@@ -49,13 +49,10 @@ dotenv.config();
      const currentTime = Date.now();
  
      for (let [key, element] of timer_games_plus10) {  
-      console.log(element);
-      console.log(element[element.currentplayer] );
-      console.log(element.timestart );
-      console.log(currentTime );
+    
 
  
-        console.log(element[element.currentplayer] - (currentTime - element.timestart) );
+        console.log(element[element.currentplayer].time - (currentTime - element.timestart) );
        
          if (element[element.currentplayer] - (currentTime - element.timestart) < 15000) {
              timer_games_minus10.push(element);
