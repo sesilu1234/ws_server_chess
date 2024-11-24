@@ -44,7 +44,7 @@ dotenv.config();
  
  const per_player_plus10 = () => {
 
-  console.log(timer_games_plus10);
+  
  
      const currentTime = Date.now();
  
@@ -64,6 +64,8 @@ dotenv.config();
  };
  
  const per_player_minus10 = () => {
+
+    console.log(timer_games_minus10);
  
      const currentTime = Date.now();
  
