@@ -268,7 +268,7 @@ wss.on("connection", (ws) => {
 
         
         const match_rows = game_sql[0]; // probar que pasa si es vacio, y como comprobarlo, creo hay que coger game_sql[0][0]
-
+        console.log("eied", match_rows);
           if (match_rows) {
 
            const match = match_rows[0];
