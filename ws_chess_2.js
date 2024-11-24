@@ -43,11 +43,14 @@ dotenv.config();
   //    algorithmic_max_time  =>     10.000 + 1 + var_exec + exec_time
  
  const per_player_plus10 = () => {
+
+  console.log(timer_games_plus10);
  
      const currentTime = Date.now();
  
      for (let element of timer_games_plus10) {  
  
+        console.log(element[element.currentplayer] - (currentTime - element.timestart) );
        
          if (element[element.currentplayer] - (currentTime - element.timestart) < 15000) {
              timer_games_minus10.push(element);
@@ -313,6 +316,7 @@ wss.on("connection", (ws) => {
             );
 
             game.timestart = Date.now();
+            timer_games_plus10.push(game);
 
           } else {
             ws.send(
