@@ -50,7 +50,7 @@ dotenv.config();
  
      for (let [key, element] of timer_games_plus10) {  
     
-      console.log(timer_games_minus10);
+      console.log(timer_games_plus10);
  
        
        
