@@ -347,18 +347,18 @@ wss.on("connection", (ws) => {
           console.log(sendJSON);
 
 
-          if (game.player1 === ws) {
-            game.player2.send(
+          if (game.player1.client === ws) {
+            game.player2.client.send(
               JSON.stringify({ type: "move", payload: sendJSON })
             );
-            game.player1.send(
+            game.player1.client.send(
               JSON.stringify({ type: "time_left", payload: sendJSON.time_left })
             );
           } else {
-            game.player1.send(
+            game.player1.client.send(
               JSON.stringify({ type: "move", payload: sendJSON })
             );
-            game.player2.send(
+            game.player2.client.send(
                 JSON.stringify({ type: "time_left", payload: sendJSON.time_left })
             );
           }
