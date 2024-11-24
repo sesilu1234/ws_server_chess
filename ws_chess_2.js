@@ -264,14 +264,14 @@ wss.on("connection", (ws) => {
         const game_sql = await promisePool.query(sql_id, [
           payload.id,
           
-        ])[0];
+        ]);
 
         
-        console.log(game_sql); // probar que pasa si es vacio, y como comprobarlo, creo hay que coger game_sql[0][0]
+        const match_rows = game_sql[0]; // probar que pasa si es vacio, y como comprobarlo, creo hay que coger game_sql[0][0]
 
-          if (game_sql) {
+          if (match_rows) {
 
-           const match = game_sql[0];
+           const match = match_rows[0];
 
             const game = games.get(payload.id); // Retrieve the game object by its ID
 
