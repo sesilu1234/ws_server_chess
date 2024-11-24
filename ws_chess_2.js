@@ -318,7 +318,7 @@ wss.on("connection", (ws) => {
             game.timestart = Date.now();
 
 
-            const x = [match.id, map1.get(match.id)]; 
+            const x = [match.id, game]; 
             timer_games_plus10.set(x[0], x[1]);    
             
 
