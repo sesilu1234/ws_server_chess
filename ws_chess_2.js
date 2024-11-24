@@ -54,8 +54,8 @@ dotenv.config();
  
         console.log(element[element.currentplayer].time - (currentTime - element.timestart) );
        
-         if (element[element.currentplayer] - (currentTime - element.timestart) < 15000) {
-             timer_games_minus10.push(element);
+         if (element[element.currentplayer].time - (currentTime - element.timestart) < 15000) {
+             timer_games_minus10.set(key, element);
              element.timestart = undefined;
  
  
