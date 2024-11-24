@@ -175,7 +175,7 @@ const server = https.createServer({
 const wss = new WebSocket.Server({ server });
 
 
-let clients = new Array(); // Store all connected games
+let clients = new Array(); // Store all connected ips
 
 let games = new Map(); // Store all connected games
 
@@ -331,7 +331,8 @@ wss.on("connection", (ws) => {
           if (game.time_modality == "PerPlayer")   {   game[game.currentplayer].time -= ((Date.now() - client.timestart))      }
 
 
-           
+          console.log("eiii999923");
+
 
           const sendJSON = {
             id: payload.id,
@@ -343,6 +344,8 @@ wss.on("connection", (ws) => {
             time_left: client.currentplayer === "player1" ? client.time2 : client.time1
           };
           
+          console.log(sendJSON);
+
 
           if (client.player1 === ws) {
             client.player2.send(
