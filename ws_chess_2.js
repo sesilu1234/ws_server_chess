@@ -264,46 +264,44 @@ wss.on("connection", (ws) => {
         const game_sql = await promisePool.query(sql_id, [
           payload.id,
           
-        ]);
+        ])[0];
 
         
         console.log(game_sql); // probar que pasa si es vacio, y como comprobarlo, creo hay que coger game_sql[0][0]
 
           if (game_sql) {
 
+           const match = game_sql[0];
+
             const game = games.get(payload.id); // Retrieve the game object by its ID
 
-            console.log(game_sql);
+           
 
             game.player2.client = ws;
             
 
             const sendJSON1 = {
-              id: game_sql.id,
-              player1: game_sql.player1,
-              color1: game_sql.color1,
-              player2: game_sql.player2,
-              color2: game_sql.color2,
-              countdown_time: game_sql.countdown_time,
-              time_modality: game_sql.time_modality,
+              id: match.id,
+              player1: match.player1,
+              color1: match.color1,
+              player2: match.player2,
+              color2: match.color2,
+              countdown_time: match.countdown_time,
+              time_modality: match.time_modality,
               round: 1,
             };
             const sendJSON2 = {
-              id: game_sql.id,
-              player1: game_sql.player2,
-              color1: game_sql.color2,
-              player2: game_sql.player1,
-              color2: game_sql.color1,
-              countdown_time: game_sql.countdown_time,
-              time_modality: game_sql.time_modality,
+              id: match.id,
+              player1: match.player2,
+              color1: match.color2,
+              player2: match.player1,
+              color2: match.color1,
+              countdown_time: match.countdown_time,
+              time_modality: match.time_modality,
               round: 2,
             };
 
 
-
-
-            console.log(game_sql);
-            console.log(sendJSON1)
 
 
 
