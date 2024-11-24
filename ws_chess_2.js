@@ -328,7 +328,7 @@ wss.on("connection", (ws) => {
 
           const game = games.get(payload.id);
 
-          if (game.time_modality == "PerPlayer")   {   game[game.currentplayer].time -= ((Date.now() - client.timestart))      }
+          if (game.time_modality == "PerPlayer")   {   game[game.currentplayer].time -= ((Date.now() - game.timestart))      }
 
 
           console.log("eiii999923");
@@ -341,7 +341,7 @@ wss.on("connection", (ws) => {
             turn: payload.turn,
             pawn_promotion: payload.pawn_promotion,
             castling: payload.castle,
-            time_left: game.currentplayer === "player1" ? game.time2 : game.time1
+            time_left: game.currentplayer === "player1" ? game.player2.time : game.player1.time1
           };
           
           console.log(sendJSON);
@@ -363,7 +363,7 @@ wss.on("connection", (ws) => {
             );
           }
 
-          game.currentplayer = game.currentplayer === "player1" ? "player1" : "player2"
+          game.currentplayer = game.currentplayer === "player1" ? "player2" : "player1"
           
           game.timestart = Date.now();  
 
