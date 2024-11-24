@@ -341,31 +341,31 @@ wss.on("connection", (ws) => {
             turn: payload.turn,
             pawn_promotion: payload.pawn_promotion,
             castling: payload.castle,
-            time_left: client.currentplayer === "player1" ? client.time2 : client.time1
+            time_left: game.currentplayer === "player1" ? game.time2 : game.time1
           };
           
           console.log(sendJSON);
 
 
-          if (client.player1 === ws) {
-            client.player2.send(
+          if (game.player1 === ws) {
+            game.player2.send(
               JSON.stringify({ type: "move", payload: sendJSON })
             );
-            client.player1.send(
+            game.player1.send(
               JSON.stringify({ type: "time_left", payload: sendJSON.time_left })
             );
           } else {
-            client.player1.send(
+            game.player1.send(
               JSON.stringify({ type: "move", payload: sendJSON })
             );
-              client.player2.send(
+            game.player2.send(
                 JSON.stringify({ type: "time_left", payload: sendJSON.time_left })
             );
           }
 
-          client.currentplayer = client.currentplayer === "player1" ? "player1" : "player2"
+          game.currentplayer = game.currentplayer === "player1" ? "player1" : "player2"
           
-          client.timestart = Date.now();  
+          game.timestart = Date.now();  
 
           timer_games_minus10.delete(payload.id);
 
