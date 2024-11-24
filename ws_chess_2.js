@@ -302,7 +302,7 @@ wss.on("connection", (ws) => {
 
 
 
-
+            console.log(game);
 
 
             game.player1.client.send(
