@@ -67,13 +67,13 @@ dotenv.config();
  
      const currentTime = Date.now();
  
-     for (let element of timer_games_minus10) {  
+     for (let [key, element] of timer_games_minus10) {  
  
        
          if (element[element.currentplayer].time - (currentTime - element.timestart) < -0.2) {
              
              
-             timer_games_minus10.delete(element);
+             timer_games_minus10.delete(key);
  
              element.player1.client.send(
                  JSON.stringify({ type: "end_game", payload: {motive : "end_time", currentplayer: element[element.currentplayer].name } })
