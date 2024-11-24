@@ -267,13 +267,14 @@ wss.on("connection", (ws) => {
         ]);
 
         
-
+        console.log(game_sql); // probar que pasa si es vacio, y como comprobarlo, creo hay que coger game_sql[0][0]
 
           if (game_sql) {
 
             const game = games.get(payload.id); // Retrieve the game object by its ID
 
-            
+            console.log(game_sql);
+
             game.player2.client = ws;
             
 
