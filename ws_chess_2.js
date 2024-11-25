@@ -55,7 +55,9 @@ const per_player_minus10 = () => {
           type: "end_game",
           payload: {
             motive: "end_time",
-            currentplayer: element[element.currentplayer].name,
+            winner: element.currentplayer === "player1"
+            ? element.player2.name
+            : element.player1.name
           },
         })
       );
