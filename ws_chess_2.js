@@ -28,7 +28,7 @@ const per_player_plus10 = () => {
   const currentTime = Date.now();
 
   for (let [key, element] of timer_games_plus10) {
-    console.log(timer_games_plus10);
+    
 
     if (
       element[element.currentplayer].time - (currentTime - element.timestart) <
@@ -41,7 +41,7 @@ const per_player_plus10 = () => {
 };
 
 const per_player_minus10 = () => {
-  console.log(timer_games_minus10);
+  
 
   const currentTime = Date.now();
 
