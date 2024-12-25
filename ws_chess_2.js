@@ -19,6 +19,92 @@ dotenv.config();
 
 // al enviar movimiento, delete de minus10, siempre...eso si, primero cambio el undefined y despues deleteo en mins10, no vaya a ser
 
+
+
+
+const { MongoClient } = require("mongodb");
+
+// Connection URI with pool size configuration
+const uri = "mongodb+srv://sesilu1234:Emilborel1234@cluster0.kwper.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const options = {
+    maxPoolSize: 10, // Set the max number of connections in the pool
+    minPoolSize: 2   // Optional: Set a minimum pool size
+};
+
+const client = new MongoClient(uri, options);
+
+client.connect();
+
+const initialGameState = {
+    id: "gameId", // Make sure to replace "gameId" with your actual game ID
+    player1: {
+        pieces: {
+            king: [],
+            queen: [],
+            rooks: [],
+            bishops: [],
+            knights: [],
+            pawns: []
+        },
+        name: undefined,
+        color: "white",
+        time: undefined
+    },
+    player2: {
+        pieces: {
+            king: [],
+            queen: [],
+            rooks: [],
+            bishops: [],
+            knights: [],
+            pawns: []
+        },
+        name: undefined,
+        color: "black",
+        time: undefined
+    },
+    currentplayer: undefined,
+    time_modality: undefined
+};
+
+async function run() {
+    try {
+        await client.connect();
+        console.log("Connected to MongoDB");
+
+        const database = client.db("chess_recover_games"); // Correct database name
+        const gamesCollection = database.collection("games"); // Correct collection name
+
+        // Insert the initial game state into the database
+        const result = await gamesCollection.insertOne(initialGameState);
+        console.log(`Game state inserted with ID: ${result.insertedId}`);
+        
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error);
+    } finally {
+        await client.close(); // Close the connection when done
+    }
+}
+
+run();
+
+
+
+
+
+
+
+
+
+
+
+const games_recover = new Map();
+
+
+
+
+
+
 const timer_games_plus10 = new Map();
 const timer_games_minus10 = new Map();
 
@@ -295,7 +381,43 @@ wss.on("connection", (ws) => {
 
           break;
 
-        case "recover":
+        case "recover_game":
+
+        switch (payload.type) {
+
+          case "rg1":
+
+
+                      const database = client.db("chess_recover_games"); // Correct database name
+                      const gamesCollection = database.collection("games"); // Correct collection name
+
+                      const searchId = payload.id_to_recover; // Replace with the ID you want to search for
+
+                      // Find the document with the matching id
+                      const game_to_recover = await gamesCollection.findOne({ id: searchId });
+
+                      if (game_to_recover) {
+                          console.log("Game found:", game_to_recover);
+
+                          
+
+                          ws.send(
+                            JSON.stringify({ type: "rg1", payload: {player1: game_to_recover.player1.name, player2: game_to_recover.player2.name }})
+                          );
+
+
+
+
+                      } else {
+                          console.log("No game found with the given ID.");
+                      }
+
+
+
+
+
+      }
+
           break;
 
         case "talk":
