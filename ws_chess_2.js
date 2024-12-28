@@ -413,7 +413,7 @@ wss.on("connection", (ws) => {
                       }
 
 
-
+                      break;
 
 
       }
@@ -421,6 +421,27 @@ wss.on("connection", (ws) => {
           break;
 
         case "talk":
+
+
+        game = games.get(payload.id);
+
+        if (game) {
+
+        if (game.player1.client === ws) {
+          game.player2.client.send(
+            JSON.stringify({ type: "talk", payload: payload.text })
+          );
+          
+        } else {
+          game.player1.client.send(
+            JSON.stringify({ type: "talk", payload: payload.text })
+          );
+          
+        }
+      }
+
+
+
           break;
 
         default:
