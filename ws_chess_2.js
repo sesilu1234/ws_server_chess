@@ -386,10 +386,16 @@ wss.on("connection", (ws) => {
 
         case "recover_game":
 
+        
+
         switch (payload.type) {
+
+          
 
           case "rg1":
 
+                      
+                      
 
                       const database = client.db("chess_recover_games"); // Correct database name
                       const gamesCollection = database.collection("games"); // Correct collection name
@@ -426,17 +432,17 @@ wss.on("connection", (ws) => {
         case "talk":
 
 
-        const game = games.get(payload.id);
+        const game_1 = games.get(payload.id);
 
-        if (game) {
+        if (game_1) {
 
-        if (game.player1.client === ws) {
-          game.player2.client.send(
+        if (game_1.player1.client === ws) {
+          game_1.player2.client.send(
             JSON.stringify({ type: "talk", payload: payload.text })
           );
           
         } else {
-          game.player1.client.send(
+          game_1.player1.client.send(
             JSON.stringify({ type: "talk", payload: payload.text })
           );
           
