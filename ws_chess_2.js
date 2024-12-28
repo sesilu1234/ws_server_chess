@@ -35,6 +35,9 @@ const client = new MongoClient(uri, options);
 
 client.connect();
 
+
+console.log("iueiaiea");
+
 const initialGameState = {
     id: "gameId", // Make sure to replace "gameId" with your actual game ID
     player1: {
