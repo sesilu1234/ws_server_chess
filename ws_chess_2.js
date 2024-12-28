@@ -89,7 +89,7 @@ async function run() {
     }
 }
 
-run();
+
 
 
 
@@ -426,7 +426,7 @@ wss.on("connection", (ws) => {
         case "talk":
 
 
-        game = games.get(payload.id);
+        const game = games.get(payload.id);
 
         if (game) {
 
