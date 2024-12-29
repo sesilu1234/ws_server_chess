@@ -431,6 +431,7 @@ wss.on("connection", (ws) => {
 
         case "talk":
 
+          console.log(payload.text);
 
         const game_1 = games.get(payload.id);
 
