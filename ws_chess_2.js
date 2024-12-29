@@ -435,18 +435,18 @@ wss.on("connection", (ws) => {
 
         const game_1 = games.get(payload.id);
 
-        if (game_1) {
+        if (game_1) {  console.log("SASASAS222")
 
         if (game_1.player1.client === ws) {
           game_1.player2.client.send(
             JSON.stringify({ type: "talk", payload: payload.text })
           );
-          
+          console.log("eieie1234");
         } else {
           game_1.player1.client.send(
             JSON.stringify({ type: "talk", payload: payload.text })
           );
-          
+          console.log("eieie123442iu432");
         }
       }
 
