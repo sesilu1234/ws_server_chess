@@ -487,29 +487,27 @@ wss.on("connection", (ws) => {
                 case "resign":
 
 
-                if (game_2.player1.client === ws){
 
 
-                    console.log("eieie12");
+                  
 
 
 
                
                 game_2.player2.client.send(
                   JSON.stringify({ type: "resign", payload: {winner: payload.winner, looser: payload.looser} })
-                );}
+                );
 
-                else { 
+               
                   
                   
-                  console.log("eieie12");
-                  
+               
                   
                   
                   game_2.player1.client.send(
                   JSON.stringify({ type: "resign", payload: {winner: payload.winner, looser: payload.looser} })
                 );
-}
+
 
 
                 break
