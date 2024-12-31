@@ -487,7 +487,7 @@ wss.on("connection", (ws) => {
                 case "resign":
 
 
-                if (game_1.player1.client === ws){
+                if (game_2.player1.client === ws){
 
 
                
