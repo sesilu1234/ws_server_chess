@@ -244,7 +244,7 @@ wss.on("connection", (ws) => {
 
           id = getRandomID();
 
-          console.log(payload);
+          
 
           const sql = "CALL insert_game_1(?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -492,11 +492,11 @@ wss.on("connection", (ws) => {
 
                
                 game_2.player2.client.send(
-                  JSON.stringify({ type: "resign", payload: {} })
+                  JSON.stringify({ type: "resign", payload: {winner: payload.winner, looser: payload.looser} })
                 );}
 
                 else { game_2.player1.client.send(
-                  JSON.stringify({ type: "resign", payload: {} })
+                  JSON.stringify({ type: "resign", payload: {winner: payload.winner, looser: payload.looser} })
                 );
 }
 
