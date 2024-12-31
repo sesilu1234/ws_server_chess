@@ -244,6 +244,8 @@ wss.on("connection", (ws) => {
 
           id = getRandomID();
 
+          console.log(payload);
+
           const sql = "CALL insert_game_1(?, ?, ?, ?, ?, ?, ?, ?)";
 
           try {
@@ -431,28 +433,108 @@ wss.on("connection", (ws) => {
 
         case "talk":
 
-          console.log(payload.text,"99999",payload.id);
+          
 
         const game_1 = games.get(payload.id);
 
-        if (game_1) {  console.log("SASASAS222")
+        if (game_1) {  
 
         if (game_1.player1.client === ws) {
           game_1.player2.client.send(
             JSON.stringify({ type: "talk", payload: payload.text })
           );
-          console.log("eieie1234");
+          
         } else {
           game_1.player1.client.send(
             JSON.stringify({ type: "talk", payload: payload.text })
           );
-          console.log("eieie123442iu432");
+          
         }
       }
 
 
 
           break;
+
+
+
+
+
+          case "options":
+
+
+          const game_2 = games.get(payload.id);
+
+          if (game_1) {  
+
+
+              switch (payload.type){
+
+                
+
+                case "save_and_resume":
+
+
+
+                break
+
+                case "draw":
+
+
+
+                break
+
+                case "resign":
+
+
+                if (game_1.player1.client === ws){
+
+
+               
+                game_2.player2.client.send(
+                  JSON.stringify({ type: "resign", payload: {} })
+                );}
+
+                else { game_2.player1.client.send(
+                  JSON.stringify({ type: "resign", payload: {} })
+                );
+}
+
+
+                break
+
+
+                default:
+          console.log("Unknown action:", message.type);
+          break;
+
+              }
+
+              }
+
+
+
+
+
+          break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         default:
           console.log("Unknown action:", message.type);
