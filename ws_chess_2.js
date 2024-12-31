@@ -465,7 +465,7 @@ wss.on("connection", (ws) => {
 
           const game_2 = games.get(payload.id);
 
-          if (game_1) {  
+          if (game_2) {  
 
 
               switch (payload.type){
