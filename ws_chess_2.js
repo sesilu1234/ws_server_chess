@@ -427,6 +427,126 @@ wss.on("connection", (ws) => {
                 break;
 
               case "draw":
+
+              const game_3 = games.get(payload.id);
+
+                switch (payload.way) {
+
+                        case "way_1":
+
+
+
+
+
+                        
+
+                        if (game_3) {
+                          if (game_3.player1.client === ws) {
+                            game_3.player2.client.send(
+                              JSON.stringify({ type: "draw", payload: { way: payload.way }}),
+                            );
+                          } else {
+                            game_3.player1.client.send(
+                              JSON.stringify({ type: "draw", payload: { way: payload.way } }),
+                            );
+                          }
+                        }
+
+
+
+
+
+
+
+
+
+
+                            break
+
+
+                        case "way_2":
+
+
+                              switch (payload.accepted) {
+
+
+                                    case true:
+
+
+
+
+                                    if (game_3) {
+                                      
+                                      game_3.player2.client.send(
+                                          JSON.stringify({ type: "draw", payload:{ way : payload.way, accepted: payload.accepted }}),
+                                        );
+                                     
+                                        game_3.player1.client.send(
+                                          JSON.stringify({ type: "draw", payload:{ way : payload.way, accepted: payload.accepted } }),
+                                        );
+                                      
+                                    }
+
+
+
+
+                                        break
+
+
+
+                                    case false:
+
+
+
+                                    if (game_3) {
+                                      if (game_3.player1.client === ws) {
+                                        game_3.player2.client.send(
+                                          JSON.stringify({ type: "draw", payload:{ way : payload.way, accepted: payload.accepted } }),
+                                        );
+                                      } else {
+                                        game_3.player1.client.send(
+                                          JSON.stringify({ type: "draw", payload:{ way : payload.way, accepted: payload.accepted } }),
+                                        );
+                                      }
+                                    }
+
+
+
+
+
+
+
+                                        break
+
+
+
+                                        default:
+                                          
+                                          console.log("Accepted has an unexpected value");
+
+
+                              }
+
+
+
+
+
+
+                            break
+
+
+
+                        default:
+                          console.log("Unknown action:");
+                          break;
+
+
+                }
+
+
+
+
+
                 break;
 
               case "resign":
@@ -447,7 +567,7 @@ wss.on("connection", (ws) => {
                 break;
 
               default:
-                console.log("Unknown action:", message.type);
+                console.log("Unknown action:");
                 break;
             }
           }
