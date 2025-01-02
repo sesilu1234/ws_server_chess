@@ -424,6 +424,89 @@ wss.on("connection", (ws) => {
           if (game_2) {
             switch (payload.type) {
               case "save_and_resume":
+
+
+
+
+
+              switch (payload.way) {
+
+                case "way_1":
+
+
+                    
+                if (game_2) {
+                  if (game_2.player1.client === ws) {
+                    game_2.player2.client.send(
+                      JSON.stringify({ type: "save_and_resume", payload: { way: "way_1" }}),
+                    );
+                  } else {
+                    game_2.player1.client.send(
+                      JSON.stringify({ type: "save_and_resume", payload: { way: "way_1" } }),
+                    );
+                  }
+                }
+
+
+
+                  break;
+
+
+                  
+
+
+                  case "way_2":
+
+
+
+
+                  switch (payload.accepted) {
+
+
+
+                      case true:
+
+
+                      game_2.player2.client.send(
+                        JSON.stringify({ type: "save_and_resume", payload:{ way : "way_2", accepted: payload.accepted }}),
+                      );
+                   
+                      game_2.player1.client.send(
+                        JSON.stringify({ type: "save_and_resume", payload:{ way : "way_2", accepted: payload.accepted } }),
+                      );
+
+
+
+                      break
+
+
+                      case false:
+
+
+
+                      break
+
+
+
+
+
+                  }
+
+
+
+                  break;
+
+
+                  default:
+                    console.log("Unknown action:");
+                    break;
+              }
+
+
+
+
+
+
                 break;
 
               case "draw":
