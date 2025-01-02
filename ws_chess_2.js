@@ -426,14 +426,14 @@ wss.on("connection", (ws) => {
               case "save_and_resume":
 
 
-
+                console.log("eiii1111");
 
 
               switch (payload.way) {
 
                 case "way_1":
 
-
+                console.log("eii2222");
                     
                 if (game_2) {
                   if (game_2.player1.client === ws) {
