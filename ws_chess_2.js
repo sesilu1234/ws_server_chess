@@ -35,37 +35,7 @@ client.connect();
 
 console.log("iueiaiea");
 
-const initialGameState = {
-  id: "gameId", // Make sure to replace "gameId" with your actual game ID
-  player1: {
-    pieces: {
-      king: [],
-      queen: [],
-      rooks: [],
-      bishops: [],
-      knights: [],
-      pawns: [],
-    },
-    name: undefined,
-    color: "white",
-    time: undefined,
-  },
-  player2: {
-    pieces: {
-      king: [],
-      queen: [],
-      rooks: [],
-      bishops: [],
-      knights: [],
-      pawns: [],
-    },
-    name: undefined,
-    color: "black",
-    time: undefined,
-  },
-  currentplayer: undefined,
-  time_modality: undefined,
-};
+
 
 async function run() {
   try {
@@ -426,14 +396,13 @@ wss.on("connection", (ws) => {
               case "save_and_resume":
 
 
-                console.log("eiii1111");
+                
 
 
               switch (payload.way) {
 
                 case "way_1":
 
-                console.log("eii2222");
                     
                 if (game_2) {
                   if (game_2.player1.client === ws) {
@@ -465,6 +434,10 @@ wss.on("connection", (ws) => {
 
 
                       case true:
+
+
+
+                      console.log(payload.game_state);
 
 
                       game_2.player2.client.send(
