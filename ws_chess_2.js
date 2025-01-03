@@ -33,7 +33,7 @@ const client = new MongoClient(uri, options);
 
 client.connect();
 
-console.log("iueiaiea");
+
 
 
 
@@ -306,6 +306,9 @@ wss.on("connection", (ws) => {
                 : game.player1.time,
           };
 
+
+          console.log(game);
+
           if (game.player1.client === ws) {
             game.player2.client.send(
               JSON.stringify({ type: "move", payload: sendJSON }),
@@ -437,7 +440,50 @@ wss.on("connection", (ws) => {
 
 
 
-                      console.log(payload.game_state);
+                      const GameState = {
+                        id: undefined, // Make sure to replace "gameId" with your actual game ID
+                        player1: {
+                          pieces: undefined,
+                          name: undefined,
+                          color: undefined,
+                          time: undefined,
+                          castling: true,
+                        },
+                        player2: {
+                          pieces: undefined,
+                          name: undefined,
+                          color: undefined,
+                          time: undefined,
+                          castling: true,
+                        },
+                        currentplayer: undefined,
+                        time_modality: undefined,
+                        
+                      };
+
+
+                      const sql_id = "SELECT * FROM created_games WHERE id = ?";
+
+                      const game_sql = await promisePool.query(sql_id, [payload.id]);
+
+                      const match = game_sql[0][0];
+        
+                      
+                     
+
+              GameState.id = match.id;
+
+              GameState.player1.name = match.player1;
+              GameState.player1.color = match.color1;
+              GameState.player1.castling = payload.pieces_state.player1.castling;
+              GameState.player1.pieces = payload.pieces_state.player1.pieces;
+
+
+              GameState.player2.name = match.player2;
+              GameState.player2.color = match.color2;
+              GameState.player2.castling = payload.pieces_state.player2.castling;
+              GameState.player2.pieces = payload.pieces_state.player2.pieces;
+              
 
 
                       game_2.player2.client.send(
