@@ -338,7 +338,7 @@ wss.on("connection", (ws) => {
 
           timer_games_minus10.delete(payload.id);
 
-          console.log(game);
+          
 
           break;
 
@@ -473,19 +473,46 @@ wss.on("connection", (ws) => {
                       
                      
 
-              GameState.id = match.id;
+                              GameState.id = match.id;
 
-              GameState.player1.name = match.player1;
-              GameState.player1.color = match.color1;
-              GameState.player1.castling = payload.pieces_state.player1.castling;
-              GameState.player1.pieces = payload.pieces_state.player1.pieces;
+                              GameState.player1.name = match.player1;
+                              GameState.player1.color = match.color1;
+                              GameState.player1.castling = payload.pieces_state.player1.castling;
+                              
 
 
-              GameState.player2.name = match.player2;
-              GameState.player2.color = match.color2;
-              GameState.player2.castling = payload.pieces_state.player2.castling;
-              GameState.player2.pieces = payload.pieces_state.player2.pieces;
-              
+                              GameState.player2.name = match.player2;
+                              GameState.player2.color = match.color2;
+                              GameState.player2.castling = payload.pieces_state.player2.castling;
+                              
+
+                              GameState.player1.time = game_2.player1.time;
+                              GameState.player2.time = game_2.player2.time;
+
+                              GameState.time_modality = game_2.time_modality;
+                              GameState.currentplayer = game_2.currentplayer;
+
+
+
+
+                              if (game_2.player1.client === ws) {
+
+                              GameState.player1.pieces = payload.pieces_state.player1.pieces;
+                              GameState.player2.pieces = payload.pieces_state.player2.pieces;
+
+                              }
+
+                              else {
+
+                                GameState.player1.pieces = payload.pieces_state.player2.pieces;
+                                GameState.player2.pieces = payload.pieces_state.player1.pieces;
+
+
+                              }
+
+
+
+                              console.log(GameState);
 
 
                       game_2.player2.client.send(
