@@ -510,7 +510,7 @@ wss.on("connection", (ws) => {
 
                               }
 
-
+                              GameState[GameState.currentplayer].time -= (Date.now() - game_2.timestart);
 
                               console.log(GameState);
 
