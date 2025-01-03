@@ -291,7 +291,7 @@ wss.on("connection", (ws) => {
             game[game.currentplayer].time -= Date.now() - game.timestart;
           }
 
-          console.log(game);
+          
 
           const sendJSON = {
             id: payload.id,
@@ -307,7 +307,7 @@ wss.on("connection", (ws) => {
           };
 
 
-          console.log(game);
+        
 
           if (game.player1.client === ws) {
             game.player2.client.send(
@@ -337,6 +337,8 @@ wss.on("connection", (ws) => {
           game.timestart = Date.now();
 
           timer_games_minus10.delete(payload.id);
+
+          console.log(game);
 
           break;
 
