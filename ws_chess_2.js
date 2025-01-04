@@ -37,7 +37,7 @@ client.connect();
 
 
 
-async function run() {
+async function run_insertMongo(GameState) {
   try {
     await client.connect();
     console.log("Connected to MongoDB");
@@ -46,7 +46,7 @@ async function run() {
     const gamesCollection = database.collection("games"); // Correct collection name
 
     // Insert the initial game state into the database
-    const result = await gamesCollection.insertOne(initialGameState);
+    const result = await gamesCollection.insertOne(GameState);
     console.log(`Game state inserted with ID: ${result.insertedId}`);
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
@@ -512,7 +512,7 @@ wss.on("connection", (ws) => {
 
                               GameState[GameState.currentplayer].time -= (Date.now() - game_2.timestart);
 
-                              console.log(GameState);
+                              run_insertMongo(GameState);
 
 
                       game_2.player2.client.send(
