@@ -460,6 +460,7 @@ wss.on("connection", (ws) => {
                         },
                         currentplayer: undefined,
                         time_modality: undefined,
+                        sending_player: undefined
                         
                       };
 
@@ -499,6 +500,7 @@ wss.on("connection", (ws) => {
 
                               GameState.player1.pieces = payload.pieces_state.player1.pieces;
                               GameState.player2.pieces = payload.pieces_state.player2.pieces;
+                              GameState.sending_player = 'player1';
 
                               }
 
@@ -506,7 +508,7 @@ wss.on("connection", (ws) => {
 
                                 GameState.player1.pieces = payload.pieces_state.player2.pieces;
                                 GameState.player2.pieces = payload.pieces_state.player1.pieces;
-
+                                GameState.sending_player = 'player2';
 
                               }
 
