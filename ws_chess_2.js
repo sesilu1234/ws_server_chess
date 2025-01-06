@@ -547,14 +547,14 @@ wss.on("connection", (ws) => {
 
                                                 const sql_id_2 = `
                                                                     INSERT INTO RECOVER_GAME (ID, player1, player2, DATE) 
-                                                                    VALUES (?, ?, ?, ?) 
+                                                                    VALUES (?, ?, ?, NOW()) 
                                                                     ON DUPLICATE KEY UPDATE 
                                                                     player1 = VALUES(player1), 
                                                                     player2 = VALUES(player2), 
                                                                     DATE = VALUES(DATE);
                                                                 `;
 
-                                                await promisePool.query(sql_id_2, [match.id, match.player1, match.player2, Date.now()]);
+                                                await promisePool.query(sql_id_2, [match.id, match.player1, match.player2]);
 
 
 
