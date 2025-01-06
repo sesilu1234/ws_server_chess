@@ -434,7 +434,7 @@ wss.on("connection", (ws) => {
                             case "rg2":
 
 
-
+                                console.log("eiii999PPPP");
 
                             const sql_id_3 = `
                                 UPDATE RECOVER_GAME 
