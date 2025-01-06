@@ -434,6 +434,11 @@ wss.on("connection", (ws) => {
                             case "rg2":
 
 
+                            console.log(typeof ws, ws);
+                            console.log(typeof payload.ws_client_name, payload.ws_client_name);
+                            console.log(typeof payload.id, payload.id);
+                            
+
                                 console.log("eiii999PPPP");
 
                             const sql_id_3 = `
@@ -442,7 +447,7 @@ wss.on("connection", (ws) => {
                                 WHERE id = ?
                             `;
 
-                            await promisePool.query(sql_id_3, [ws, payload.ws_client_name, payload.id]);
+                            await promisePool.query(sql_id_3, [JSON.stringify(ws), payload.ws_client_name, payload.id]);
 
 
 
