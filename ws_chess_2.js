@@ -362,29 +362,65 @@ wss.on("connection", (ws) => {
                 case "recover_game":
                     switch (payload.type) {
                         case "rg1":
+
+
+
+                        const sql_id = "SELECT * FROM created_games WHERE id = ?";
+
+                        const game_sql = await promisePool.query(sql_id, [payload.id]);
+                                
+                        const names_match = game_sql[0][0];
+
+
+
+
+
+
+
                             const database = client.db("chess_recover_games"); // Correct database name
                             const gamesCollection = database.collection("games"); // Correct collection name
 
-                            const searchId = payload.id_to_recover; // Replace with the ID you want to search for
+                            
 
                             // Find the document with the matching id
                             const game_to_recover = await gamesCollection.findOne({
                                 id: searchId,
                             });
 
-                            if (game_to_recover) {
-                                console.log("Game found:", game_to_recover);
+
+
+
+                            
+
+
+
+
+                            if (game_sql[0].length > 0) 
+                                {
+                                
 
                                 ws.send(
                                     JSON.stringify({
                                         type: "rg1",
                                         payload: {
-                                            player1: game_to_recover.player1.name,
-                                            player2: game_to_recover.player2.name,
+                                            found: true,
+                                            player1: names_match.player1,
+                                            player2: names_match.player2,
                                         },
                                     }),
                                 );
                             } else {
+
+
+                                ws.send(
+                                    JSON.stringify({
+                                        type: "rg1",
+                                        payload: {
+                                            found: false,
+                                            
+                                        },
+                                    }),
+                                );
                                 console.log("No game found with the given ID.");
                             }
 
