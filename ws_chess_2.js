@@ -365,7 +365,7 @@ wss.on("connection", (ws) => {
 
 
 
-                        const sql_id = "SELECT * FROM created_games WHERE id = ?";
+                        const sql_id = "SELECT * FROM RECOVER_GAME WHERE id = ?";
 
                         const game_sql = await promisePool.query(sql_id, [payload.id]);
                                 
@@ -388,7 +388,7 @@ wss.on("connection", (ws) => {
                             //});
 
 
-
+                            console.log("11", game_sql);
 
 
 
