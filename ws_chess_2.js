@@ -377,20 +377,20 @@ wss.on("connection", (ws) => {
 
 
 
-                            const database = client.db("chess_recover_games"); // Correct database name
-                            const gamesCollection = database.collection("games"); // Correct collection name
+                            //const database = client.db("chess_recover_games"); // Correct database name
+                            //const gamesCollection = database.collection("games"); // Correct collection name
 
                             
 
                             // Find the document with the matching id
-                            const game_to_recover = await gamesCollection.findOne({
-                                id: searchId,
-                            });
+                            //const game_to_recover = await gamesCollection.findOne({
+                            //   id: searchId,
+                            //});
 
 
 
 
-                            
+
 
 
 
