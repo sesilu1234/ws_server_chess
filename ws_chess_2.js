@@ -365,7 +365,7 @@ wss.on("connection", (ws) => {
 
 
 
-                        console.log("333",payload);
+                        
 
                         const sql_id = "SELECT * FROM RECOVER_GAME WHERE id = ?";
 
@@ -390,7 +390,6 @@ wss.on("connection", (ws) => {
                             //});
 
 
-                            console.log("11", game_sql);
 
 
 
