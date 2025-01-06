@@ -426,6 +426,28 @@ wss.on("connection", (ws) => {
                             }
 
                             break;
+
+
+
+
+
+                            case "rg2":
+
+
+
+
+                            const sql_id_3 = `
+                                UPDATE RECOVER_GAME 
+                                SET ws_client = ?, ws_client_name = ?
+                                WHERE id = ?
+                            `;
+
+                            await promisePool.query(sql_id_3, [ws, payload.ws_client_name, payload.id]);
+
+
+
+
+
                     }
 
                     break;
@@ -583,12 +605,12 @@ wss.on("connection", (ws) => {
                                                 run_insertMongo(GameState);
 
                                                 const sql_id_2 = `
-                                                                    INSERT INTO RECOVER_GAME (ID, player1, player2, DATE) 
+                                                                    INSERT INTO RECOVER_GAME (ID, player1, player2, date_savedgame) 
                                                                     VALUES (?, ?, ?, NOW()) 
                                                                     ON DUPLICATE KEY UPDATE 
                                                                     player1 = VALUES(player1), 
                                                                     player2 = VALUES(player2), 
-                                                                    DATE = VALUES(DATE);
+                                                                    date_savedgame = VALUES(date_savedgame);
                                                                 `;
 
                                                 await promisePool.query(sql_id_2, [match.id, match.player1, match.player2]);
