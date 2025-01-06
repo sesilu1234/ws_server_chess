@@ -545,6 +545,20 @@ wss.on("connection", (ws) => {
 
                                                 run_insertMongo(GameState);
 
+                                                const sql_id_2 = `
+                                                                    INSERT INTO RECOVER_GAME (ID, player1, player2, DATE) 
+                                                                    VALUES (?, ?, ?, ?) 
+                                                                    ON DUPLICATE KEY UPDATE 
+                                                                    player1 = VALUES(player1), 
+                                                                    player2 = VALUES(player2), 
+                                                                    DATE = VALUES(DATE);
+                                                                `;
+
+                                                await promisePool.query(sql_id_2, [match.id, match.player1, match.player2, Date.now()]);
+
+
+
+
 
                                                 game_2.player2.client.send(
                                                     JSON.stringify({
