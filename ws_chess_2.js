@@ -383,8 +383,9 @@ wss.on("connection", (ws) => {
 
                             if (game_sql[0].length > 0)  {
 
+                                const game_to_recover = games_recover.get(payload.id);
 
-                              if (games_recover.get(payload.id) && games_recover.ws_client != ws) {
+                              if (game_to_recover && game_to_recover.ws_client != ws) {
 
                                 console.log("eiiiiiii8888");
 
