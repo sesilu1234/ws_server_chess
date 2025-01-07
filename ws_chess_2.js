@@ -386,10 +386,6 @@ wss.on("connection", (ws) => {
                                 const game_to_recover = games_recover.get(payload.id);
 
 
-                                
-
-                              if (game_to_recover && game_to_recover.ws_client != ws) {
-
                                 ws.send(
                                     JSON.stringify({
                                         type: "rg_ping",
@@ -400,15 +396,9 @@ wss.on("connection", (ws) => {
                                 );  
 
 
+                              if (game_to_recover && game_to_recover.ws_client != ws) {
 
-
-                                ws.send(
-                                    JSON.stringify({
-                                        type: "time_left",
-                                        
-                                    }),
-                                );
-
+                               
 
 
                                 try{
