@@ -407,7 +407,7 @@ wss.on("connection", (ws) => {
                               );   
                             
 
-                              ws.ws_client.send(
+                              ws.send(
                                 JSON.stringify({
                                     type: "rg_ping",
                                     payload: {
