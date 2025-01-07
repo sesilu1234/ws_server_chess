@@ -395,7 +395,7 @@ wss.on("connection", (ws) => {
 
                                 try{
 
-                                   
+                                    console.log("eiiiiiii8888");
 
                                     game_to_recover.ws_client.send(
                                   JSON.stringify({
@@ -409,7 +409,7 @@ wss.on("connection", (ws) => {
                               catch{
 
 
-                                console.log("eiiiiiii8888");
+                                
 
                                 ws.send(
                                     JSON.stringify({
