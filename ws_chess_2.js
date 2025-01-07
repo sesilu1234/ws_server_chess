@@ -386,6 +386,8 @@ wss.on("connection", (ws) => {
 
                               if (games_recover.get(payload.id) && games_recover.ws_client != ws) {
 
+                                console.log("eiiiiiii8888");
+
 
                                 try{
                                 games_recover.ws_client.send(
