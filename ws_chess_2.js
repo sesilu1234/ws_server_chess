@@ -394,7 +394,10 @@ wss.on("connection", (ws) => {
 
 
                                 try{
-                                games_recover.ws_client.send(
+
+                                   
+
+                                    game_to_recover.ws_client.send(
                                   JSON.stringify({
                                       type: "rg_ping",
                                       payload: {
@@ -483,8 +486,8 @@ wss.on("connection", (ws) => {
                             const time = isoString.replace("T", " ").substring(0, 19);
 
                             games_recover.set(payload.id, {ws_client_name: payload.ws_client_name, date: time, ws_client: ws, });
-                            
-                            console.log(games_recover);
+                           
+
 
                             
                             break;
