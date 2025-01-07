@@ -380,13 +380,7 @@ wss.on("connection", (ws) => {
                                     game_to_recover &&
                                     game_to_recover.ws_client != ws
                                 ) {
-                                    console.log(game_to_recover.ws_client);
-                                    console.log(
-                                        game_to_recover.ws_client != ws,
-                                    );
-                                    console.log(
-                                        game_to_recover.ws_client == ws,
-                                    );
+                                   
 
                                     try {
                                         
@@ -466,7 +460,13 @@ wss.on("connection", (ws) => {
 
 
 
-                            console.log(payload.ws_opponent);
+                        const opponent = payload.ws_opponent;
+
+                        if (opponent) {
+                            console.log("Type of opponent:", opponent.constructor.name);
+                        } else {
+                            console.log("opponent is undefined or null.");
+                        }
 
 
                             
