@@ -385,12 +385,24 @@ wss.on("connection", (ws) => {
                                     try {
                                         
 
+                                        const game_opponent = games_recover.get(payload.id); 
+
+                                       
+                                          
+                                        game_opponent.ws_client_opponent = ws;
+
+                                        
+                                        games_recover.set(payload.id, game_opponent);
+
+
+
+
                                         game_to_recover.ws_client.send(
                                             JSON.stringify({
                                                 type: "rg_ping",
                                                 payload: {
                                                     id: payload.id,
-                                                    ws_opponent: ws,
+                                                   
                                                 },
                                             }),
                                         );
@@ -460,16 +472,9 @@ wss.on("connection", (ws) => {
 
 
 
-                        const opponent = payload.ws_opponent;
+                        
 
-                        if (opponent) {
-                            console.log("Type of opponent:", opponent.constructor.name);
-                        } else {
-                            console.log("opponent is undefined or null.");
-                        }
-
-
-                            
+                            const game_opponent = games_recover.get(payload.id);
 
 
 
@@ -478,13 +483,13 @@ wss.on("connection", (ws) => {
 
 
 
-                            ws.send(
+                            game_opponent.ws_client.send(
                                 JSON.stringify({
                                     type: "recovering_game",
                                 }),
                             );
 
-                            opponent.send(
+                            game_opponent.ws_client_opponent.send(
                                 JSON.stringify({
                                     type: "recovering_game",
                                 }),
