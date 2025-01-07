@@ -404,7 +404,23 @@ wss.on("connection", (ws) => {
                                           ws_opponent: ws,
                                       },
                                   }),
-                              );   }
+                              );   
+                            
+
+                              ws.ws_client.send(
+                                JSON.stringify({
+                                    type: "rg_ping",
+                                    payload: {
+                                        ws_opponent: ws,
+                                    },
+                                }),
+                            );  
+                            
+                            
+                            
+                            
+                            
+                            }
 
                               catch{
 
