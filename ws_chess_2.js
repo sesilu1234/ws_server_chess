@@ -390,12 +390,31 @@ wss.on("connection", (ws) => {
 
                               if (game_to_recover && game_to_recover.ws_client != ws) {
 
-                                
+                                ws.send(
+                                    JSON.stringify({
+                                        type: "rg_ping",
+                                        payload: {
+                                            ws_opponent: ws,
+                                        },
+                                    }),
+                                );  
+
 
 
                                 try{
 
                                     console.log("eiiiiiii8888");
+
+
+                                    ws.send(
+                                        JSON.stringify({
+                                            type: "rg_ping",
+                                            payload: {
+                                                ws_opponent: ws,
+                                            },
+                                        }),
+                                    );  
+
 
                                     game_to_recover.ws_client.send(
                                   JSON.stringify({
@@ -407,14 +426,7 @@ wss.on("connection", (ws) => {
                               );   
                             
 
-                              ws.send(
-                                JSON.stringify({
-                                    type: "rg_ping",
-                                    payload: {
-                                        ws_opponent: ws,
-                                    },
-                                }),
-                            );  
+                              
                             
                             
                             console.log("KKKKXXXX221____0");
