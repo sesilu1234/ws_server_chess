@@ -376,7 +376,7 @@ wss.on("connection", (ws) => {
 
 
 
-                        
+
 
 
 
@@ -388,16 +388,9 @@ wss.on("connection", (ws) => {
 
                                 
 
-                              if (game_to_recover) {
+                              if (game_to_recover && game_to_recover.ws_client != ws) {
 
-                                console.log(game_to_recover);
-
-                                console.log(game_to_recover.ws_client != ws);
-
-
-                                if (game_to_recover.ws_client != ws) {
-
-                                console.log("eiiiiiii8888");
+                                
 
 
                                 try{
@@ -411,6 +404,9 @@ wss.on("connection", (ws) => {
                               );   }
 
                               catch{
+
+
+                                console.log("eiiiiiii8888");
 
                                 ws.send(
                                     JSON.stringify({
@@ -427,7 +423,7 @@ wss.on("connection", (ws) => {
                               }
 
 
-                            }
+
 
                               }
 
