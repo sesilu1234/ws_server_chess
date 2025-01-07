@@ -466,7 +466,7 @@ wss.on("connection", (ws) => {
 
 
 
-                            console.log(payload);
+                            console.log(payload.ws_opponent);
 
 
                             
