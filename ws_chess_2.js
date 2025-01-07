@@ -433,26 +433,20 @@ wss.on("connection", (ws) => {
 
                             case "rg2":
 
+                            const now = new Date();
+                            const isoString = now.toISOString();
+                            const time = isoString.replace("T", " ").substring(0, 19);
 
-                            console.log(typeof ws, ws);
-                            console.log(typeof payload.ws_client_name, payload.ws_client_name);
-                            console.log(typeof payload.id, payload.id);
+                            games_recover.set(payload.id, {ws_client: ws, ws_client_name: payload.ws_client_name, date: time });
                             
+                            console.log(games_recover);
 
-                                console.log("eiii999PPPP");
-
-                            const sql_id_3 = `
-                                UPDATE RECOVER_GAME 
-                                SET ws_client = ?, ws_client_name = ?
-                                WHERE id = ?
-                            `;
-
-                            await promisePool.query(sql_id_3, [JSON.stringify(ws), payload.ws_client_name, payload.id]);
-
-
-
-
-
+                            
+                            
+                            
+                            
+                            
+                            
                     }
 
                     break;
