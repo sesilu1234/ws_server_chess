@@ -376,7 +376,7 @@ wss.on("connection", (ws) => {
 
 
 
-
+                        
 
 
 
@@ -386,11 +386,16 @@ wss.on("connection", (ws) => {
                                 const game_to_recover = games_recover.get(payload.id);
 
 
+                                
+
+                              if (game_to_recover) {
+
                                 console.log(game_to_recover);
 
                                 console.log(game_to_recover.ws_client != ws);
 
-                              if (game_to_recover && game_to_recover.ws_client != ws) {
+
+                                if (game_to_recover.ws_client != ws) {
 
                                 console.log("eiiiiiii8888");
 
@@ -422,7 +427,7 @@ wss.on("connection", (ws) => {
                               }
 
 
-
+                            }
 
                               }
 
