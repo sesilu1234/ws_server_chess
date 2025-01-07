@@ -466,10 +466,10 @@ wss.on("connection", (ws) => {
 
 
 
+                            console.log(payload);
 
 
-
-                            console.log(payload.i);
+                            
 
 
 
