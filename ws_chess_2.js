@@ -401,6 +401,16 @@ wss.on("connection", (ws) => {
 
 
 
+
+                                ws.send(
+                                    JSON.stringify({
+                                        type: "time_left",
+                                        
+                                    }),
+                                );
+
+
+
                                 try{
 
                                     console.log("eiiiiiii8888");
