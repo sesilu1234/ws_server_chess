@@ -437,7 +437,7 @@ wss.on("connection", (ws) => {
                             const isoString = now.toISOString();
                             const time = isoString.replace("T", " ").substring(0, 19);
 
-                            games_recover.set(payload.id, {ws_client: ws, ws_client_name: payload.ws_client_name, date: time });
+                            games_recover.set(payload.id, {ws_client_name: payload.ws_client_name, date: time, ws_client: ws, });
                             
                             console.log(games_recover);
 
