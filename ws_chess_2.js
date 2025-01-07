@@ -399,11 +399,16 @@ wss.on("connection", (ws) => {
 
                               catch{
 
-                                const now = new Date();
-                                const isoString = now.toISOString();
-                                const time = isoString.replace("T", " ").substring(0, 19);
-    
-                                games_recover.set(payload.id, {ws_client_name: payload.ws_client_name, date: time, ws_client: ws, });
+                                ws.send(
+                                    JSON.stringify({
+                                        type: "rg1",
+                                        payload: {
+                                            found: true,
+                                            player1: names_match.player1,
+                                            player2: names_match.player2,
+                                        },
+                                    }),
+                                );
 
 
                               }
@@ -415,6 +420,10 @@ wss.on("connection", (ws) => {
 
 
 
+
+
+
+                              else {
 
                                 
                                 
@@ -429,7 +438,15 @@ wss.on("connection", (ws) => {
                                         },
                                     }),
                                 );
-                            } else {
+
+
+
+                            }
+
+
+                            } 
+                            
+                            else {
 
 
                                 ws.send(
@@ -490,7 +507,7 @@ wss.on("connection", (ws) => {
                         );
 
 
-
+                        break;
                             
                             
                     }
