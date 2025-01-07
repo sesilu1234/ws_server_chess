@@ -379,25 +379,44 @@ wss.on("connection", (ws) => {
 
 
 
-                            //const database = client.db("chess_recover_games"); // Correct database name
-                            //const gamesCollection = database.collection("games"); // Correct collection name
-
-                            
-
-                            // Find the document with the matching id
-                            //const game_to_recover = await gamesCollection.findOne({
-                            //   id: searchId,
-                            //});
 
 
+                            if (game_sql[0].length > 0)  {
+
+
+                              if (games_recover.get(payload.id) && games_recover.ws_client != ws) {
+
+
+                                try{
+                                games_recover.ws_client.send(
+                                  JSON.stringify({
+                                      type: "rg_ping",
+                                      payload: {
+                                          ws_opponent: ws,
+                                      },
+                                  }),
+                              );   }
+
+                              catch{
+
+                                const now = new Date();
+                                const isoString = now.toISOString();
+                                const time = isoString.replace("T", " ").substring(0, 19);
+    
+                                games_recover.set(payload.id, {ws_client_name: payload.ws_client_name, date: time, ws_client: ws, });
+
+
+                              }
 
 
 
 
+                              }
 
 
-                            if (game_sql[0].length > 0) 
-                                {
+
+
+                                
                                 
 
                                 ws.send(
@@ -442,9 +461,36 @@ wss.on("connection", (ws) => {
                             console.log(games_recover);
 
                             
+                            break;
                             
-                            
-                            
+                            case "rg_pong":
+
+
+                            ws.send(
+                              JSON.stringify({
+                                  type: "recovering_game",
+                                 
+                                  
+
+
+
+                              }),
+                          );
+
+
+                          payload.ws_opponent.send(
+                            JSON.stringify({
+                                type: "recovering_game",
+                                
+                                
+
+
+                                
+                            }),
+                        );
+
+
+
                             
                             
                     }
