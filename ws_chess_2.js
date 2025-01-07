@@ -484,7 +484,7 @@ wss.on("connection", (ws) => {
                                 }),
                             );
 
-                            payload.ws_opponent.send(
+                            opponent.send(
                                 JSON.stringify({
                                     type: "recovering_game",
                                 }),
