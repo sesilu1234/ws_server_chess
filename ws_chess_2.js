@@ -477,6 +477,74 @@ wss.on("connection", (ws) => {
 
 
 
+                            const database = client.db("chess_recover_games"); 
+                            const gamesCollection = database.collection("games");
+
+
+
+                            const game_recover = await gamesCollection.findOne({ id: payload.id });
+
+
+
+
+
+                            const player1_data = {
+
+
+                                id: game_recover.id,
+
+                                player1: game_recover.player1,
+
+                                player2: game_recover.player2,
+
+                                turn: game.currentplayer === "player1" ? true : false,
+
+                                time_modality: game_recover.time_modality,
+
+
+
+
+
+                            }
+
+
+
+
+
+
+                            const player2_data = {
+
+
+                                id: game_recover.id,
+
+                                player1: game_recover.player2,
+
+                                player2: game_recover.player1,
+
+                                turn: game.currentplayer === "player2" ? true : false,
+
+                                time_modality: game_recover.time_modality,
+
+
+
+
+
+                            }
+
+
+
+                            if (game_recover.sending_player === "player1")  {
+
+                                
+
+
+
+
+                            }
+
+
+
+
 
 
 
