@@ -35,7 +35,7 @@ client.connect();
 
 async function run_insertMongo(GameState) {
     try {
-        await client.connect();
+        
         console.log("Connected to MongoDB");
 
         const database = client.db("chess_recover_games"); // Correct database name
@@ -46,9 +46,7 @@ async function run_insertMongo(GameState) {
         console.log(`Game state inserted with ID: ${result.insertedId}`);
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
-    } finally {
-        await client.close(); // Close the connection when done
-    }
+    } 
 }
 
 const games_recover = new Map();
