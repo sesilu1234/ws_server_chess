@@ -486,12 +486,30 @@ wss.on("connection", (ws) => {
                             game_opponent.ws_client.send(
                                 JSON.stringify({
                                     type: "recovering_game",
+
+                                    payload: {
+
+
+                                        id: payload.id
+
+                                    }
+
                                 }),
                             );
 
                             game_opponent.ws_client_opponent.send(
                                 JSON.stringify({
                                     type: "recovering_game",
+
+                                    payload: {
+
+
+                                        id: payload.id
+
+                                    }
+
+
+
                                 }),
                             );
 
