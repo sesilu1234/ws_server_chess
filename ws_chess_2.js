@@ -534,6 +534,10 @@ wss.on("connection", (ws) => {
 
                            
                             console.log(game_recover.sending_player === "player1");
+                            console.log(player1_data.player1.pieces.king);
+
+
+                            console.log(player2_data.player1.pieces.king);
                            
 
                               if (game_recover.sending_player === "player1") {console.log("eii0001");
@@ -571,7 +575,7 @@ wss.on("connection", (ws) => {
 
                     console.log(player1_data.player1.pieces.king);
                             
-
+                    console.log(player2_data.player1.pieces.king);
 
 
                             game_opponent.ws_client.send(
