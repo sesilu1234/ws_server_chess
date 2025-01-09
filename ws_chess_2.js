@@ -566,6 +566,30 @@ wss.on("connection", (ws) => {
 
                     }
 
+
+
+                    games.set(game_recover.id, {
+                        player1: {
+                            client: game_opponent.ws_client,
+                            name: game_recover.player1.name,
+                            time: game_recover.player1.time,
+                        },
+                        player2: {
+                            client: game_opponent.ws_client_opponent,
+                            name: game_recover.player2.name,
+                            time: game_recover.player2.time,
+                        },
+                        time_modality: game_recover.time_modality,
+                        currentplayer: game_recover.currentplayer,
+                        timestart: Date.now(),
+                    });
+
+
+
+                    const game = games.get(payload.id);
+                    
+
+                    const x = [game_recover.id, game];
                           
 
 
@@ -608,12 +632,8 @@ wss.on("connection", (ws) => {
 
 
 
-
-
-
-
-
-
+                            
+                            timer_games_plus10.set(x[0], x[1]);
 
 
 
