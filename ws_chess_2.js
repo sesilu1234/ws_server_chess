@@ -540,7 +540,7 @@ wss.on("connection", (ws) => {
                             });
                             
                             Object.keys(player2_data.player1.pieces).forEach(key => {
-                              player2_data.player1.pieces[key] = player2_data.player1.pieces[key].map(x => 99 - x);
+                              player2_data.player2.pieces[key] = player2_data.player2.pieces[key].map(x => 99 - x);
                           });
                           
 
@@ -552,11 +552,11 @@ wss.on("connection", (ws) => {
 
 
                               Object.keys(player1_data.player1.pieces).forEach(key => {
-                                player2_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
+                                player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
                             });
                             
                             Object.keys(player1_data.player1.pieces).forEach(key => {
-                              player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
+                              player1_data.player2.pieces[key] = player1_data.player2.pieces[key].map(x => 99 - x);
                           });
 
 
