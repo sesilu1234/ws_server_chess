@@ -533,9 +533,9 @@ wss.on("connection", (ws) => {
 
 
                             console.log(player1_data.player1.pieces.king);
+                            console.log(game_recover.sending_player == "player1");
 
-
-                              if (game_recover.sending_player === "player1") {
+                              if (game_recover.sending_player == "player1") {
                            
 
                               Object.keys(player2_data.player1.pieces).forEach(key => {
