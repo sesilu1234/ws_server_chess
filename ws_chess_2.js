@@ -497,7 +497,7 @@ wss.on("connection", (ws) => {
 
                                 player2: game_recover.player2,
 
-                                turn: game_recover.currentplayer === "player1" ? true : false,
+                                turn: game_recover.sending_player === game_recover.currentplayer ? true : false,
 
                                 time_modality: game_recover.time_modality,
 
@@ -521,7 +521,7 @@ wss.on("connection", (ws) => {
 
                                 player2: game_recover.player1,
 
-                                turn: game_recover.currentplayer === "player2" ? true : false,
+                                turn: game_recover.sending_player === game_recover.currentplayer ? false : true,
 
                                 time_modality: game_recover.time_modality,
 
@@ -533,39 +533,23 @@ wss.on("connection", (ws) => {
 
 
 
-                            if (game_recover.sending_player === "player1")  {
+                           
 
                               Object.keys(player2_data.player1.pieces).forEach(key => {
                                 player2_data.player1.pieces[key] = player2_data.player1.pieces[key].map(x => 99 - x);
                             });
                             
-                            Object.keys(player2_data.player1.pieces).forEach(key => {
+                            Object.keys(player2_data.player2.pieces).forEach(key => {
                               player2_data.player2.pieces[key] = player2_data.player2.pieces[key].map(x => 99 - x);
                           });
                           
 
 
 
-                            }
-
-                            else {
+                          
 
 
-                              Object.keys(player1_data.player1.pieces).forEach(key => {
-                                player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
-                            });
                             
-                            Object.keys(player1_data.player1.pieces).forEach(key => {
-                              player1_data.player2.pieces[key] = player1_data.player2.pieces[key].map(x => 99 - x);
-                          });
-
-
-
-
-                            }
-
-
-                            if (game_opponent.ws_client_name === player1_data.player1.name)
 
 
 
