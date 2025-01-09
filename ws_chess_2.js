@@ -759,6 +759,9 @@ wss.on("connection", (ws) => {
                                                     Date.now() -
                                                     game_2.timestart;
 
+
+                                                  console.log(GameState);
+
                                                 run_insertMongo(GameState);
 
                                                 const sql_id_2 = `
