@@ -570,12 +570,12 @@ wss.on("connection", (ws) => {
 
                     games.set(game_recover.id, {
                         player1: {
-                            client: game_opponent.ws_client,
+                            client: game_opponent.ws_client_name === game_recover.player1.name ? game_opponent.ws_client : game_opponent.ws_client_opponent,
                             name: game_recover.player1.name,
                             time: game_recover.player1.time,
                         },
                         player2: {
-                            client: game_opponent.ws_client_opponent,
+                            client: game_opponent.ws_client_name === game_recover.player1.name ? game_opponent.ws_client_opponent : game_opponent.ws_client,
                             name: game_recover.player2.name,
                             time: game_recover.player2.time,
                         },
