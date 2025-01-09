@@ -493,9 +493,9 @@ wss.on("connection", (ws) => {
 
                                 id: game_recover.id,
 
-                                player1: game_recover.player1,
+                                player1: structuredClone(game_recover.player1),
 
-                                player2: game_recover.player2,
+                                player2: structuredClone(game_recover.player2),
 
                                 turn: game_recover.sending_player === game_recover.currentplayer ? true : false,
 
@@ -517,9 +517,9 @@ wss.on("connection", (ws) => {
 
                                 id: game_recover.id,
 
-                                player1: game_recover.player2,
+                                player1: structuredClone(game_recover.player2),
 
-                                player2: game_recover.player1,
+                                player2: structuredClone(game_recover.player1),
 
                                 turn: game_recover.sending_player === game_recover.currentplayer ? false : true,
 
@@ -532,15 +532,10 @@ wss.on("connection", (ws) => {
                             }
 
 
-                           
-                            console.log(game_recover.sending_player === "player1");
-                            console.log(player1_data.player1.pieces.king);
-
-
-                            console.log(player2_data.player1.pieces.king);
+                         
                            
 
-                              if (game_recover.sending_player === "player1") {console.log("eii0001");
+                              if (game_recover.sending_player === "player1") {
                            
 
                               Object.keys(player2_data.player1.pieces).forEach(key => {
@@ -557,7 +552,7 @@ wss.on("connection", (ws) => {
 
 
 
-                        else {console.log("SADKMKMD");
+                        else {
                            
 
                           Object.keys(player1_data.player1.pieces).forEach(key => {
@@ -573,9 +568,6 @@ wss.on("connection", (ws) => {
 
                           
 
-                    console.log(player1_data.player1.pieces.king);
-                            
-                    console.log(player2_data.player1.pieces.king);
 
 
                             game_opponent.ws_client.send(
@@ -593,9 +585,7 @@ wss.on("connection", (ws) => {
                                 }),
                             );
 
-                            console.log(game_opponent.ws_client_name);
-
-                            console.log(player1_data.player1.name);
+                          
 
                             game_opponent.ws_client_opponent.send(
                                 JSON.stringify({
