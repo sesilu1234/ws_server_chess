@@ -583,6 +583,10 @@ wss.on("connection", (ws) => {
                                 }),
                             );
 
+                            console.log(game_opponent.ws_client_name);
+
+                            console.log(player1_data.player1.name);
+
                             game_opponent.ws_client_opponent.send(
                                 JSON.stringify({
                                     type: "recovering_game",
