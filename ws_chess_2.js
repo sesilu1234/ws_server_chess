@@ -497,7 +497,7 @@ wss.on("connection", (ws) => {
 
                                 player2: structuredClone(game_recover.player2),
 
-                                turn: game_recover.sending_player === game_recover.currentplayer ? true : false,
+                                turn: game_recover.currentplayer === "player1" ? true : false,
 
                                 time_modality: game_recover.time_modality,
 
@@ -521,7 +521,7 @@ wss.on("connection", (ws) => {
 
                                 player2: structuredClone(game_recover.player1),
 
-                                turn: game_recover.sending_player === game_recover.currentplayer ? false : true,
+                                turn: game_recover.currentplayer === "player1" ? false : true,
 
                                 time_modality: game_recover.time_modality,
 
