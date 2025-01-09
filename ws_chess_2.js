@@ -532,6 +532,9 @@ wss.on("connection", (ws) => {
                             }
 
 
+                            console.log(player1_data.player1.pieces.king);
+
+
                               if (game_recover.sending_player === "player1") {
                            
 
@@ -545,6 +548,8 @@ wss.on("connection", (ws) => {
                           
 
                         }
+
+
 
 
                         else {
@@ -563,7 +568,7 @@ wss.on("connection", (ws) => {
 
                           
 
-
+                    console.log(player1_data.player1.pieces.king);
                             
 
 
