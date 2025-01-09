@@ -532,7 +532,7 @@ wss.on("connection", (ws) => {
                             }
 
 
-
+                              if (game_recover.sending_player === "player1") {
                            
 
                               Object.keys(player2_data.player1.pieces).forEach(key => {
@@ -544,7 +544,22 @@ wss.on("connection", (ws) => {
                           });
                           
 
+                        }
 
+
+                        else {
+                           
+
+                          Object.keys(player1_data.player1.pieces).forEach(key => {
+                            player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
+                        });
+                        
+                        Object.keys(player2_data.player2.pieces).forEach(key => {
+                          player1_data.player2.pieces[key] = player1_data.player2.pieces[key].map(x => 99 - x);
+                      });
+                      
+
+                    }
 
                           
 
