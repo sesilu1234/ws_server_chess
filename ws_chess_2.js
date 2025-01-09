@@ -535,7 +535,29 @@ wss.on("connection", (ws) => {
 
                             if (game_recover.sending_player === "player1")  {
 
-                                
+                              Object.keys(player2_data.player1.pieces).forEach(key => {
+                                player2_data.player1.pieces[key] = player2_data.player1.pieces[key].map(x => 99 - x);
+                            });
+                            
+                            Object.keys(player2_data.player1.pieces).forEach(key => {
+                              player2_data.player1.pieces[key] = player2_data.player1.pieces[key].map(x => 99 - x);
+                          });
+                          
+
+
+
+                            }
+
+                            else {
+
+
+                              Object.keys(player1_data.player1.pieces).forEach(key => {
+                                player2_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
+                            });
+                            
+                            Object.keys(player1_data.player1.pieces).forEach(key => {
+                              player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
+                          });
 
 
 
@@ -543,9 +565,7 @@ wss.on("connection", (ws) => {
                             }
 
 
-
-
-
+                            if (game_opponent.ws_client_name === player1_data.player1.name)
 
 
 
@@ -556,7 +576,8 @@ wss.on("connection", (ws) => {
                                     payload: {
 
 
-                                        id: payload.id
+                                      player_data: game_opponent.ws_client_name === player1_data.player1.name ? player1_data : player2_data
+
 
                                     }
 
@@ -570,7 +591,8 @@ wss.on("connection", (ws) => {
                                     payload: {
 
 
-                                        id: payload.id
+                                      player_data: game_opponent.ws_client_name === player1_data.player1.name ? player2_data : player1_data
+
 
                                     }
 
