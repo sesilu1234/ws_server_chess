@@ -497,7 +497,7 @@ wss.on("connection", (ws) => {
 
                                 player2: game_recover.player2,
 
-                                turn: game.currentplayer === "player1" ? true : false,
+                                turn: game_recover.currentplayer === "player1" ? true : false,
 
                                 time_modality: game_recover.time_modality,
 
@@ -521,7 +521,7 @@ wss.on("connection", (ws) => {
 
                                 player2: game_recover.player1,
 
-                                turn: game.currentplayer === "player2" ? true : false,
+                                turn: game_recover.currentplayer === "player2" ? true : false,
 
                                 time_modality: game_recover.time_modality,
 
