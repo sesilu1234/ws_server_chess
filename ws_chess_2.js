@@ -374,27 +374,31 @@ wss.on("connection", (ws) => {
                             
 
                             if (game_sql[0].length > 0) {
+
+
+
+
+
                                 const game_to_recover = games_recover.get(
                                     payload.id,
                                 );
 
-                                if (
-                                    game_to_recover &&
-                                    game_to_recover.ws_client != ws
-                                ) {
+
+
+
+
+
+
+                                if ( game_to_recover && game_to_recover.ws_client != ws ) 
+                                
+                                {
 
                                     
 
                                     if (names_match.joined === null && game_to_recover.ws_client.readyState == 1 ) {
 
 
-                                        console.log("eooo11000");
 
-                                    }
-
-
-                                    try {
-                                        
 
                                         game_to_recover.ws_client_opponent = ws;
 
@@ -411,7 +415,13 @@ wss.on("connection", (ws) => {
                                                 },
                                             }),
                                         );
-                                    } catch {
+                                        
+
+                                    }
+
+
+                                   
+                                    else {
                                         ws.send(
                                             JSON.stringify({
                                                 type: "rg1",
@@ -602,6 +612,9 @@ wss.on("connection", (ws) => {
                             );
 
                             timer_games_plus10.set(x[0], x[1]);
+
+                            games_recover.delete(payload.id);
+
 
                             break;
                     }
