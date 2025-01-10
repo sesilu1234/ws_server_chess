@@ -385,7 +385,7 @@ wss.on("connection", (ws) => {
 
                                     
 
-                                    if (names_match.joined = null && game_to_recover.ws_client.readyState == 1 ) {
+                                    if (names_match.joined === null && game_to_recover.ws_client.readyState == 1 ) {
 
 
                                         console.log("eooo11000");
