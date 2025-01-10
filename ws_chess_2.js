@@ -383,7 +383,7 @@ wss.on("connection", (ws) => {
 
                                     console.log(ws_client.readyState);
 
-                                    if (join = null && ws_client.readyState === WebSocket.OPEN )
+                                    if (join = null && game_to_recover.ws_client.readyState === WebSocket.OPEN )
 
 
                                     try {
