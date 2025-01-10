@@ -381,7 +381,7 @@ wss.on("connection", (ws) => {
                                     game_to_recover.ws_client != ws
                                 ) {
 
-                                    console.log(ws_client.readyState);
+                                    console.log(game_to_recover.ws_client.readyState);
 
                                     if (join = null && game_to_recover.ws_client.readyState === WebSocket.OPEN )
 
