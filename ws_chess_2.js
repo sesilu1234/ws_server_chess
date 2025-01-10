@@ -371,35 +371,20 @@ wss.on("connection", (ws) => {
 
                             const names_match = game_sql[0][0];
 
-                            
-
                             if (game_sql[0].length > 0) {
-
-
-
-
-
                                 const game_to_recover = games_recover.get(
                                     payload.id,
                                 );
 
-
-
-
-
-
-
-                                if ( game_to_recover && game_to_recover.ws_client != ws ) 
-                                
-                                {
-
-                                    
-
-                                    if (names_match.joined === null && game_to_recover.ws_client.readyState == 1 ) {
-
-
-
-
+                                if (
+                                    game_to_recover &&
+                                    game_to_recover.ws_client != ws
+                                ) {
+                                    if (
+                                        names_match.joined === null &&
+                                        game_to_recover.ws_client.readyState ==
+                                            1
+                                    ) {
                                         game_to_recover.ws_client_opponent = ws;
 
                                         games_recover.set(
@@ -415,13 +400,7 @@ wss.on("connection", (ws) => {
                                                 },
                                             }),
                                         );
-                                        
-
-                                    }
-
-
-                                   
-                                    else {
+                                    } else {
                                         ws.send(
                                             JSON.stringify({
                                                 type: "rg1",
@@ -615,6 +594,16 @@ wss.on("connection", (ws) => {
 
                             games_recover.delete(payload.id);
 
+                            const sql_id_2 = `
+                                                UPDATE recover_game 
+                                                SET joined = NOW()
+                                                WHERE ID = ?
+                                            `;
+
+                            await promisePool.query(
+                                sql_id_2,
+                                [match.id], // Pass the parameter here
+                            );
 
                             break;
                     }
@@ -761,7 +750,6 @@ wss.on("connection", (ws) => {
                                                     Date.now() -
                                                     game_2.timestart;
 
-                                               
                                                 run_insertMongo(GameState);
 
                                                 const sql_id_2 = `
