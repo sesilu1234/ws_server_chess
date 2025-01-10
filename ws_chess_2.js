@@ -602,7 +602,7 @@ wss.on("connection", (ws) => {
 
                             await promisePool.query(
                                 sql_id_2,
-                                [match.id], // Pass the parameter here
+                                [payload.id], // Pass the parameter here
                             );
 
                             break;
