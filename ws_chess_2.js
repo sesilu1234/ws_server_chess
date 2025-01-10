@@ -35,19 +35,23 @@ client.connect();
 
 async function run_insertMongo(GameState) {
     try {
-        
         console.log("Connected to MongoDB");
 
-        const database = client.db("chess_recover_games"); // Correct database name
-        const gamesCollection = database.collection("games"); // Correct collection name
+        const database = client.db("chess_recover_games"); 
+        const gamesCollection = database.collection("games"); 
 
-        // Insert the initial game state into the database
-        const result = await gamesCollection.insertOne(GameState);
-        console.log(`Game state inserted with ID: ${result.insertedId}`);
+       
+        const result = await gamesCollection.replaceOne(
+            { id: GameState.id }, 
+            GameState,                       
+            { upsert: true }                
+        );
+        console.log(`Game state inserted`);
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
-    } 
+    }
 }
+
 
 const games_recover = new Map();
 
