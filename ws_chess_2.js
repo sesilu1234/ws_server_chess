@@ -371,7 +371,7 @@ wss.on("connection", (ws) => {
 
                             const names_match = game_sql[0][0];
 
-                            console.log(names_match);
+                            
 
                             if (game_sql[0].length > 0) {
                                 const game_to_recover = games_recover.get(
@@ -385,7 +385,12 @@ wss.on("connection", (ws) => {
 
                                     
 
-                                    if (join = null && game_to_recover.ws_client.readyState == 1 )
+                                    if (names_match.joined = null && game_to_recover.ws_client.readyState == 1 ) {
+
+
+                                        console.log("eooo11000");
+
+                                    }
 
 
                                     try {
