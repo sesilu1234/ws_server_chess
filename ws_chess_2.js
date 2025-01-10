@@ -380,16 +380,20 @@ wss.on("connection", (ws) => {
                                     game_to_recover &&
                                     game_to_recover.ws_client != ws
                                 ) {
-                                    try {
-                                        const game_opponent = games_recover.get(
-                                            payload.id,
-                                        );
 
-                                        game_opponent.ws_client_opponent = ws;
+                                    console.log(ws_client.readyState);
+
+                                    if (join = null && ws_client.readyState === WebSocket.OPEN )
+
+
+                                    try {
+                                        
+
+                                        game_to_recover.ws_client_opponent = ws;
 
                                         games_recover.set(
                                             payload.id,
-                                            game_opponent,
+                                            game_to_recover,
                                         );
 
                                         game_to_recover.ws_client.send(
@@ -737,8 +741,7 @@ wss.on("connection", (ws) => {
                                                     Date.now() -
                                                     game_2.timestart;
 
-                                                console.log(GameState);
-
+                                               
                                                 run_insertMongo(GameState);
 
                                                 const sql_id_2 = `
