@@ -37,21 +37,19 @@ async function run_insertMongo(GameState) {
     try {
         console.log("Connected to MongoDB");
 
-        const database = client.db("chess_recover_games"); 
-        const gamesCollection = database.collection("games"); 
+        const database = client.db("chess_recover_games");
+        const gamesCollection = database.collection("games");
 
-       
         const result = await gamesCollection.replaceOne(
-            { id: GameState.id }, 
-            GameState,                       
-            { upsert: true }                
+            { id: GameState.id },
+            GameState,
+            { upsert: true },
         );
         console.log(`Game state inserted`);
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
     }
 }
-
 
 const games_recover = new Map();
 
@@ -365,7 +363,7 @@ wss.on("connection", (ws) => {
                     switch (payload.type) {
                         case "rg1":
                             const sql_id =
-                                "SELECT * FROM RECOVER_GAME WHERE id = ?";
+                                "SELECT * FROM recover_game WHERE id = ?";
 
                             const game_sql = await promisePool.query(sql_id, [
                                 payload.id,
@@ -382,35 +380,26 @@ wss.on("connection", (ws) => {
                                     game_to_recover &&
                                     game_to_recover.ws_client != ws
                                 ) {
-                                   
-
                                     try {
-                                        
+                                        const game_opponent = games_recover.get(
+                                            payload.id,
+                                        );
 
-                                        const game_opponent = games_recover.get(payload.id); 
-
-                                       
-                                          
                                         game_opponent.ws_client_opponent = ws;
 
-                                        
-                                        games_recover.set(payload.id, game_opponent);
-
-
-
+                                        games_recover.set(
+                                            payload.id,
+                                            game_opponent,
+                                        );
 
                                         game_to_recover.ws_client.send(
                                             JSON.stringify({
                                                 type: "rg_ping",
                                                 payload: {
                                                     id: payload.id,
-                                                   
                                                 },
                                             }),
                                         );
-
-
-
                                     } catch {
                                         ws.send(
                                             JSON.stringify({
@@ -467,195 +456,141 @@ wss.on("connection", (ws) => {
                             break;
 
                         case "rg_pong":
-
-
-
-
-
-
-
-                        
-
                             const game_opponent = games_recover.get(payload.id);
 
+                            const database = client.db("chess_recover_games");
+                            const gamesCollection =
+                                database.collection("games");
 
-
-
-                            const database = client.db("chess_recover_games"); 
-                            const gamesCollection = database.collection("games");
-
-
-
-                            const game_recover = await gamesCollection.findOne({ id: payload.id });
-
-
-
-
+                            const game_recover = await gamesCollection.findOne({
+                                id: payload.id,
+                            });
 
                             const player1_data = {
-
-
                                 id: game_recover.id,
 
                                 player1: structuredClone(game_recover.player1),
 
                                 player2: structuredClone(game_recover.player2),
 
-                                turn: game_recover.currentplayer === "player1" ? true : false,
+                                turn:
+                                    game_recover.currentplayer === "player1"
+                                        ? true
+                                        : false,
 
                                 time_modality: game_recover.time_modality,
-
-
-
-
-
-                            }
-
-
-
-
-
+                            };
 
                             const player2_data = {
-
-
                                 id: game_recover.id,
 
                                 player1: structuredClone(game_recover.player2),
 
                                 player2: structuredClone(game_recover.player1),
 
-                                turn: game_recover.currentplayer === "player1" ? false : true,
+                                turn:
+                                    game_recover.currentplayer === "player1"
+                                        ? false
+                                        : true,
 
                                 time_modality: game_recover.time_modality,
+                            };
 
+                            if (game_recover.sending_player === "player1") {
+                                Object.keys(
+                                    player2_data.player1.pieces,
+                                ).forEach((key) => {
+                                    player2_data.player1.pieces[key] =
+                                        player2_data.player1.pieces[key].map(
+                                            (x) => 99 - x,
+                                        );
+                                });
 
+                                Object.keys(
+                                    player2_data.player2.pieces,
+                                ).forEach((key) => {
+                                    player2_data.player2.pieces[key] =
+                                        player2_data.player2.pieces[key].map(
+                                            (x) => 99 - x,
+                                        );
+                                });
+                            } else {
+                                Object.keys(
+                                    player1_data.player1.pieces,
+                                ).forEach((key) => {
+                                    player1_data.player1.pieces[key] =
+                                        player1_data.player1.pieces[key].map(
+                                            (x) => 99 - x,
+                                        );
+                                });
 
-
-
+                                Object.keys(
+                                    player2_data.player2.pieces,
+                                ).forEach((key) => {
+                                    player1_data.player2.pieces[key] =
+                                        player1_data.player2.pieces[key].map(
+                                            (x) => 99 - x,
+                                        );
+                                });
                             }
 
-
-                         
-                           
-
-                              if (game_recover.sending_player === "player1") {
-                           
-
-                              Object.keys(player2_data.player1.pieces).forEach(key => {
-                                player2_data.player1.pieces[key] = player2_data.player1.pieces[key].map(x => 99 - x);
+                            games.set(game_recover.id, {
+                                player1: {
+                                    client:
+                                        game_opponent.ws_client_name ===
+                                        game_recover.player1.name
+                                            ? game_opponent.ws_client
+                                            : game_opponent.ws_client_opponent,
+                                    name: game_recover.player1.name,
+                                    time: game_recover.player1.time,
+                                },
+                                player2: {
+                                    client:
+                                        game_opponent.ws_client_name ===
+                                        game_recover.player1.name
+                                            ? game_opponent.ws_client_opponent
+                                            : game_opponent.ws_client,
+                                    name: game_recover.player2.name,
+                                    time: game_recover.player2.time,
+                                },
+                                time_modality: game_recover.time_modality,
+                                currentplayer: game_recover.currentplayer,
+                                timestart: Date.now(),
                             });
-                            
-                            Object.keys(player2_data.player2.pieces).forEach(key => {
-                              player2_data.player2.pieces[key] = player2_data.player2.pieces[key].map(x => 99 - x);
-                          });
-                          
 
-                        }
+                            const game = games.get(payload.id);
 
-
-
-
-                        else {
-                           
-
-                          Object.keys(player1_data.player1.pieces).forEach(key => {
-                            player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map(x => 99 - x);
-                        });
-                        
-                        Object.keys(player2_data.player2.pieces).forEach(key => {
-                          player1_data.player2.pieces[key] = player1_data.player2.pieces[key].map(x => 99 - x);
-                      });
-                      
-
-                    }
-
-
-
-                    games.set(game_recover.id, {
-                        player1: {
-                            client: game_opponent.ws_client_name === game_recover.player1.name ? game_opponent.ws_client : game_opponent.ws_client_opponent,
-                            name: game_recover.player1.name,
-                            time: game_recover.player1.time,
-                        },
-                        player2: {
-                            client: game_opponent.ws_client_name === game_recover.player1.name ? game_opponent.ws_client_opponent : game_opponent.ws_client,
-                            name: game_recover.player2.name,
-                            time: game_recover.player2.time,
-                        },
-                        time_modality: game_recover.time_modality,
-                        currentplayer: game_recover.currentplayer,
-                        timestart: Date.now(),
-                    });
-
-
-
-                    const game = games.get(payload.id);
-                    
-
-                    const x = [game_recover.id, game];
-                          
-
-
+                            const x = [game_recover.id, game];
 
                             game_opponent.ws_client.send(
                                 JSON.stringify({
                                     type: "recovering_game",
 
                                     payload: {
-
-
-                                      player_data: game_opponent.ws_client_name === player1_data.player1.name ? player1_data : player2_data
-
-
-                                    }
-
+                                        player_data:
+                                            game_opponent.ws_client_name ===
+                                            player1_data.player1.name
+                                                ? player1_data
+                                                : player2_data,
+                                    },
                                 }),
                             );
-
-                          
 
                             game_opponent.ws_client_opponent.send(
                                 JSON.stringify({
                                     type: "recovering_game",
 
                                     payload: {
-
-
-                                      player_data: game_opponent.ws_client_name === player1_data.player1.name ? player2_data : player1_data
-
-
-                                    }
-
-
-
+                                        player_data:
+                                            game_opponent.ws_client_name ===
+                                            player1_data.player1.name
+                                                ? player2_data
+                                                : player1_data,
+                                    },
                                 }),
                             );
 
-
-
-
-
-                            
                             timer_games_plus10.set(x[0], x[1]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                             break;
                     }
@@ -802,19 +737,19 @@ wss.on("connection", (ws) => {
                                                     Date.now() -
                                                     game_2.timestart;
 
-
-                                                  console.log(GameState);
+                                                console.log(GameState);
 
                                                 run_insertMongo(GameState);
 
                                                 const sql_id_2 = `
-                                                                    INSERT INTO RECOVER_GAME (ID, player1, player2, date_savedgame) 
-                                                                    VALUES (?, ?, ?, NOW()) 
-                                                                    ON DUPLICATE KEY UPDATE 
-                                                                    player1 = VALUES(player1), 
-                                                                    player2 = VALUES(player2), 
-                                                                    date_savedgame = VALUES(date_savedgame);
-                                                                `;
+                                                INSERT INTO recover_game (ID, player1, player2, date_savedgame, joined) 
+                                                VALUES (?, ?, ?, NOW(), NULL) 
+                                                ON DUPLICATE KEY UPDATE 
+                                                player1 = VALUES(player1), 
+                                                player2 = VALUES(player2), 
+                                                date_savedgame = VALUES(date_savedgame),
+                                                joined = NULL;
+                                            `;
 
                                                 await promisePool.query(
                                                     sql_id_2,
