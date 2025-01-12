@@ -194,7 +194,7 @@ let games = new Map(); // Store all connected games
 
 wss.on("connection", (ws) => {
     clients.add(ws);
-    console.log("Client connected. Total clients:", clients.length);
+    
 
     ws.on("message", async (data) => {
         try {
