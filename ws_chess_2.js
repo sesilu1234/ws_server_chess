@@ -202,6 +202,32 @@ wss.on("connection", (ws) => {
             const payload = message.payload;
 
             switch (message.type) {
+
+
+
+
+
+
+
+                case "feedback": {
+                    const sql_1 = `
+                        INSERT INTO feedback_messages (message, ip_address)
+                        VALUES (?, ?)
+                    `;
+                
+                    const ipAddress = ws._socket.remoteAddress; // Assuming you're using WebSocket with the "ws" library
+                    const message = payload.text;
+                
+                    await promisePool.query(sql_1, [message, ipAddress]);
+                
+                    break;
+                }
+
+
+
+
+
+
                 case "create_game":
                     const now = new Date();
                     const isoString = now.toISOString();
