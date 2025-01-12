@@ -111,6 +111,7 @@ const per_player_minus10 = () => {
 
             timer_games_minus10.delete(key);
             timer_games_plus10.delete(key);
+            console.log(key);
         }
     }
 };
@@ -356,6 +357,8 @@ wss.on("connection", (ws) => {
                     game.timestart = Date.now();
 
                     timer_games_minus10.delete(payload.id);
+
+                    
 
                     break;
 
@@ -862,6 +865,8 @@ wss.on("connection", (ws) => {
                                                             },
                                                         }),
                                                     );
+                                                    timer_games_minus10.delete(payload.id);
+                                                    timer_games_plus10.delete(payload.id);
                                                 }
 
                                                 break;
@@ -933,6 +938,9 @@ wss.on("connection", (ws) => {
                                         },
                                     }),
                                 );
+
+                                timer_games_minus10.delete(payload.id);
+                    timer_games_plus10.delete(payload.id);
 
                                 break;
 
