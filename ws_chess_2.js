@@ -539,40 +539,43 @@ wss.on("connection", (ws) => {
                             };
 
                             if (game_recover.sending_player === "player1") {
-                                Object.keys(
-                                    player2_data.player1.pieces,
-                                ).forEach((key) => {
-                                    player2_data.player1.pieces[key] =
-                                        player2_data.player1.pieces[key].map(
-                                            (x) => 99 - x,
-                                        );
+                                Object.keys(player2_data.player1.pieces).forEach((key) => {
+                                    player2_data.player1.pieces[key] = player2_data.player1.pieces[key].map((x) => {
+                                        if (key === "pawns") {
+                                            return [99 - x[0], x[1]];
+                                        }
+                                        return 99 - x;
+                                    });
                                 });
+                                
 
-                                Object.keys(
-                                    player2_data.player2.pieces,
-                                ).forEach((key) => {
-                                    player2_data.player2.pieces[key] =
-                                        player2_data.player2.pieces[key].map(
-                                            (x) => 99 - x,
-                                        );
+                                Object.keys(player2_data.player2.pieces).forEach((key) => {
+                                    player2_data.player2.pieces[key] = player2_data.player2.pieces[key].map((x) => {
+                                        if (key === "pawns") {
+                                            return [99 - x[0], x[1]];
+                                        }
+                                        return 99 - x;
+                                    });
                                 });
+                                
                             } else {
-                                Object.keys(
-                                    player1_data.player1.pieces,
-                                ).forEach((key) => {
-                                    player1_data.player1.pieces[key] =
-                                        player1_data.player1.pieces[key].map(
-                                            (x) => 99 - x,
-                                        );
+                                Object.keys(player1_data.player1.pieces).forEach((key) => {
+                                    player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map((x) => {
+                                        if (key === "pawns") {
+                                            return [99 - x[0], x[1]];
+                                        }
+                                        return 99 - x;
+                                    });
                                 });
+                                
 
-                                Object.keys(
-                                    player2_data.player2.pieces,
-                                ).forEach((key) => {
-                                    player1_data.player2.pieces[key] =
-                                        player1_data.player2.pieces[key].map(
-                                            (x) => 99 - x,
-                                        );
+                                Object.keys(player1_data.player2.pieces).forEach((key) => {
+                                    player1_data.player2.pieces[key] = player1_data.player2.pieces[key].map((x) => {
+                                        if (key === "pawns") {
+                                            return [99 - x[0], x[1]];
+                                        }
+                                        return 99 - x;
+                                    });
                                 });
                             }
 
