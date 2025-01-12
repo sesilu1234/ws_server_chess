@@ -56,6 +56,21 @@ const games_recover = new Map();
 const timer_games_plus10 = new Map();
 const timer_games_minus10 = new Map();
 
+const clearClients = () => {
+    console.log(
+        "Initiating clearing of clients. Number of clients:",
+        clients.size,
+    );
+    for (const client of clients) {
+        if (client.readyState === 3) {
+            clients.delete(client);
+        }
+    }
+    console.log("Cleared closed clients. Active clients:", clients.size);
+};
+
+setInterval(clearClients, 3600000);
+
 //    algorithmic_max_time  =>     10.000 + 1 + var_exec + exec_time
 
 const per_player_plus10 = () => {
@@ -111,7 +126,7 @@ const per_player_minus10 = () => {
 
             timer_games_minus10.delete(key);
             timer_games_plus10.delete(key);
-            console.log(key);
+            games.delete(key);
         }
     }
 };
@@ -173,13 +188,13 @@ const wss = new WebSocket.Server({
     server,
 });
 
-let clients = new Array(); // Store all connected ips
+const clients = new Set();
 
 let games = new Map(); // Store all connected games
 
 wss.on("connection", (ws) => {
     clients.push(ws);
-    console.log("Client connected. Total games:", clients.length);
+    console.log("Client connected. Total clients:", clients.length);
 
     ws.on("message", async (data) => {
         try {
@@ -357,8 +372,6 @@ wss.on("connection", (ws) => {
                     game.timestart = Date.now();
 
                     timer_games_minus10.delete(payload.id);
-
-                    
 
                     break;
 
@@ -865,8 +878,12 @@ wss.on("connection", (ws) => {
                                                             },
                                                         }),
                                                     );
-                                                    timer_games_minus10.delete(payload.id);
-                                                    timer_games_plus10.delete(payload.id);
+                                                    timer_games_minus10.delete(
+                                                        payload.id,
+                                                    );
+                                                    timer_games_plus10.delete(
+                                                        payload.id,
+                                                    );
                                                 }
 
                                                 break;
@@ -940,7 +957,7 @@ wss.on("connection", (ws) => {
                                 );
 
                                 timer_games_minus10.delete(payload.id);
-                    timer_games_plus10.delete(payload.id);
+                                timer_games_plus10.delete(payload.id);
 
                                 break;
 
@@ -961,12 +978,7 @@ wss.on("connection", (ws) => {
         }
     });
 
-    ws.on("close", () => {
-        console.log(
-            "Client gone, now games and games length is: ",
-            games.length,
-        );
-    });
+    ws.on("close", () => {});
 });
 
 // Start the HTTPS server
