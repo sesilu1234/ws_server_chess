@@ -57,16 +57,25 @@ const timer_games_plus10 = new Map();
 const timer_games_minus10 = new Map();
 
 const clearClients = () => {
-    console.log(
-        "Initiating clearing of clients. Number of clients:",
-        clients.size,
-    );
+    console.log("Initiating clearing of clients. Number of clients:", clients.size);
+
     for (const client of clients) {
         if (client.readyState === 3) {
+          
             clients.delete(client);
+
+            for (const [gameId, game] of games) {
+                if (game.player1.client === client || game.player2.client === client) {
+                    games.delete(gameId); 
+                    
+                    break; 
+                }
+            }
         }
     }
+
     console.log("Cleared closed clients. Active clients:", clients.size);
+    console.log("Cleared closed games. Active games:", games.size);
 };
 
 setInterval(clearClients, 3600000);
@@ -126,7 +135,7 @@ const per_player_minus10 = () => {
 
             timer_games_minus10.delete(key);
             timer_games_plus10.delete(key);
-            games.delete(key);
+            
         }
     }
 };
