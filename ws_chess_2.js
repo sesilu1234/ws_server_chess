@@ -326,12 +326,14 @@ wss.on("connection", (ws) => {
                         game.player1.client.send(
                             JSON.stringify({
                                 type: "start_game",
+                                found: true,
                                 payload: sendJSON1,
                             }),
                         );
                         game.player2.client.send(
                             JSON.stringify({
                                 type: "start_game",
+                                found: true,
                                 payload: sendJSON2,
                             }),
                         );
@@ -343,8 +345,9 @@ wss.on("connection", (ws) => {
                     } else {
                         ws.send(
                             JSON.stringify({
-                                type: "message",
-                                message: "No such game found.",
+                                type: "start_game",
+                                found: false,
+                               
                             }),
                         );
                     }
