@@ -32,6 +32,10 @@ const client = new MongoClient(uri, options);
 
 client.connect();
 
+const clients = new Set();
+
+let games = new Map(); 
+
 async function run_insertMongo(GameState) {
     try {
         console.log("Connected to MongoDB");
@@ -54,6 +58,31 @@ const games_recover = new Map();
 
 const timer_games_plus10 = new Map();
 const timer_games_minus10 = new Map();
+
+
+
+const alive_ping = () => {
+    for (const client of clients) {
+        // Ensure the WebSocket connection is open before sending a ping
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(
+                JSON.stringify({
+                    type: "ping_alive",
+                    payload: {}
+                }),
+            );
+        }
+    }
+
+    console.log("Ping sent to all active clients at", new Date().toISOString());
+};
+
+
+setInterval(() => {
+    alive_ping();
+}, 60000); 
+
+
 
 const clearClients = () => {
     console.log("Initiating clearing of clients. Number of clients:", clients.size);
@@ -193,9 +222,7 @@ const wss = new WebSocket.Server({
     server,
 });
 
-const clients = new Set();
 
-let games = new Map(); // Store all connected games
 
 wss.on("connection", (ws) => {
     clients.add(ws);
@@ -1005,6 +1032,13 @@ wss.on("connection", (ws) => {
                     }
 
                     break;
+
+
+
+                case "alive_pong":
+
+                    break
+
 
                 default:
                     console.log("Unknown action:", message.type);
