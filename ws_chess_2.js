@@ -80,7 +80,7 @@ const alive_ping = () => {
 
 setInterval(() => {
     alive_ping();
-}, 60000); 
+}, 15000); 
 
 
 
