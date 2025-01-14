@@ -186,10 +186,7 @@ const pool = mysql.createPool({
 const promisePool = pool.promise();
 
 // Read the SSL certificate files from the certbot folder
-const server = https.createServer({
-    cert: fs.readFileSync("../certbot/fullchain.pem"),
-    key: fs.readFileSync("../certbot/privkey.pem"),
-});
+const server = http.createServer({ });
 
 // Create a secure WebSocket server on top of the HTTPS server
 const wss = new WebSocket.Server({
