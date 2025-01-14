@@ -1,5 +1,5 @@
 const fs = require("fs");
-const https = require("https");
+const http = require("http");
 const WebSocket = require("ws");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
