@@ -22,8 +22,7 @@ dotenv.config();
 const { MongoClient } = require("mongodb");
 
 // Connection URI with pool size configuration
-const uri =
-    "mongodb+srv://sesilu1234:Emilborel1234@cluster0.kwper.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGO_DB;
 const options = {
     maxPoolSize: 10, // Set the max number of connections in the pool
     minPoolSize: 2, // Optional: Set a minimum pool size
