@@ -19,6 +19,8 @@ dotenv.config();
 
 // al enviar movimiento, delete de minus10, siempre...eso si, primero cambio el undefined y despues deleteo en mins10, no vaya a ser
 
+const RATE_LIMIT = parseInt(process.env.RATE_LIMIT, 10);
+
 const { MongoClient } = require("mongodb");
 
 // Connection URI with pool size configuration
@@ -34,7 +36,18 @@ client.connect();
 
 const clients = new Set();
 
-let games = new Map(); 
+let games = new Map();
+
+let blackList = new Set();
+
+let rateLimit = new Map();
+
+function clear_Limits() {
+    blackList.clear();
+    rateLimit.clear();
+}
+
+setInterval(clear_Limits, 3600000);
 
 async function run_insertMongo(GameState) {
     try {
@@ -59,8 +72,6 @@ const games_recover = new Map();
 const timer_games_plus10 = new Map();
 const timer_games_minus10 = new Map();
 
-
-
 const alive_ping = () => {
     for (const client of clients) {
         // Ensure the WebSocket connection is open before sending a ping
@@ -68,7 +79,7 @@ const alive_ping = () => {
             client.send(
                 JSON.stringify({
                     type: "ping_alive",
-                    payload: {}
+                    payload: {},
                 }),
             );
         }
@@ -77,26 +88,28 @@ const alive_ping = () => {
     console.log("Ping sent to all active clients at", new Date().toISOString());
 };
 
-
 setInterval(() => {
     alive_ping();
-}, 15000); 
-
-
+}, 15000);
 
 const clearClients = () => {
-    console.log("Initiating clearing of clients. Number of clients:", clients.size);
+    console.log(
+        "Initiating clearing of clients. Number of clients:",
+        clients.size,
+    );
 
     for (const client of clients) {
         if (client.readyState === 3) {
-          
             clients.delete(client);
 
             for (const [gameId, game] of games) {
-                if (game.player1.client === client || game.player2.client === client) {
-                    games.delete(gameId); 
-                    
-                    break; 
+                if (
+                    game.player1.client === client ||
+                    game.player2.client === client
+                ) {
+                    games.delete(gameId);
+
+                    break;
                 }
             }
         }
@@ -163,7 +176,6 @@ const per_player_minus10 = () => {
 
             timer_games_minus10.delete(key);
             timer_games_plus10.delete(key);
-            
         }
     }
 };
@@ -215,50 +227,54 @@ const pool = mysql.createPool({
 const promisePool = pool.promise();
 
 // Read the SSL certificate files from the certbot folder
-const server = http.createServer({ });
+const server = http.createServer({});
 
 // Create a secure WebSocket server on top of the HTTPS server
 const wss = new WebSocket.Server({
     server,
 });
 
-
-
 wss.on("connection", (ws) => {
+    if (blackList.has(ws._socket.remoteAddress)) {
+        ws.close();
+    } else {
+        rateLimit.set(ws._socket.remoteAddress, { count: 0 });
+    }
+
     clients.add(ws);
-    
 
     ws.on("message", async (data) => {
         try {
+            const ip_sum1 = rateLimit.get(ws._socket.remoteAddress);
+
+            if (ip_sum1) {
+                if (ip_sum1.count >= RATE_LIMIT) {
+                    ws.close();
+                } else {
+                    ip_sum1.count += 1;
+                }
+            } else {
+                // Initialize rate limit tracking for this IP
+                rateLimit.set(ws._socket.remoteAddress, { count: 0 });
+            }
+
             const message = JSON.parse(data);
             const payload = message.payload;
 
             switch (message.type) {
-
-
-
-
-
-
-
                 case "feedback": {
                     const sql_1 = `
                         INSERT INTO feedback_messages (message, ip_address)
                         VALUES (?, ?)
                     `;
-                
+
                     const ipAddress = ws._socket.remoteAddress; // Assuming you're using WebSocket with the "ws" library
                     const message = payload.text;
-                
+
                     await promisePool.query(sql_1, [message, ipAddress]);
-                
+
                     break;
                 }
-
-
-
-
-
 
                 case "create_game":
                     const now = new Date();
@@ -370,7 +386,6 @@ wss.on("connection", (ws) => {
                             JSON.stringify({
                                 type: "start_game",
                                 found: false,
-                               
                             }),
                         );
                     }
@@ -574,43 +589,60 @@ wss.on("connection", (ws) => {
                             };
 
                             if (game_recover.sending_player === "player1") {
-                                Object.keys(player2_data.player1.pieces).forEach((key) => {
-                                    player2_data.player1.pieces[key] = player2_data.player1.pieces[key].map((x) => {
-                                        if (key === "pawns") {
-                                            return [99 - x[0], x[1]];
-                                        }
-                                        return 99 - x;
-                                    });
+                                Object.keys(
+                                    player2_data.player1.pieces,
+                                ).forEach((key) => {
+                                    player2_data.player1.pieces[key] =
+                                        player2_data.player1.pieces[key].map(
+                                            (x) => {
+                                                if (key === "pawns") {
+                                                    return [99 - x[0], x[1]];
+                                                }
+                                                return 99 - x;
+                                            },
+                                        );
                                 });
-                                
 
-                                Object.keys(player2_data.player2.pieces).forEach((key) => {
-                                    player2_data.player2.pieces[key] = player2_data.player2.pieces[key].map((x) => {
-                                        if (key === "pawns") {
-                                            return [99 - x[0], x[1]];
-                                        }
-                                        return 99 - x;
-                                    });
+                                Object.keys(
+                                    player2_data.player2.pieces,
+                                ).forEach((key) => {
+                                    player2_data.player2.pieces[key] =
+                                        player2_data.player2.pieces[key].map(
+                                            (x) => {
+                                                if (key === "pawns") {
+                                                    return [99 - x[0], x[1]];
+                                                }
+                                                return 99 - x;
+                                            },
+                                        );
                                 });
-                                
                             } else {
-                                Object.keys(player1_data.player1.pieces).forEach((key) => {
-                                    player1_data.player1.pieces[key] = player1_data.player1.pieces[key].map((x) => {
-                                        if (key === "pawns") {
-                                            return [99 - x[0], x[1]];
-                                        }
-                                        return 99 - x;
-                                    });
+                                Object.keys(
+                                    player1_data.player1.pieces,
+                                ).forEach((key) => {
+                                    player1_data.player1.pieces[key] =
+                                        player1_data.player1.pieces[key].map(
+                                            (x) => {
+                                                if (key === "pawns") {
+                                                    return [99 - x[0], x[1]];
+                                                }
+                                                return 99 - x;
+                                            },
+                                        );
                                 });
-                                
 
-                                Object.keys(player1_data.player2.pieces).forEach((key) => {
-                                    player1_data.player2.pieces[key] = player1_data.player2.pieces[key].map((x) => {
-                                        if (key === "pawns") {
-                                            return [99 - x[0], x[1]];
-                                        }
-                                        return 99 - x;
-                                    });
+                                Object.keys(
+                                    player1_data.player2.pieces,
+                                ).forEach((key) => {
+                                    player1_data.player2.pieces[key] =
+                                        player1_data.player2.pieces[key].map(
+                                            (x) => {
+                                                if (key === "pawns") {
+                                                    return [99 - x[0], x[1]];
+                                                }
+                                                return 99 - x;
+                                            },
+                                        );
                                 });
                             }
 
@@ -1033,12 +1065,8 @@ wss.on("connection", (ws) => {
 
                     break;
 
-
-
                 case "alive_pong":
-
-                    break
-
+                    break;
 
                 default:
                     console.log("Unknown action:", message.type);
