@@ -241,6 +241,12 @@ wss.on("connection", (ws) => {
         rateLimit.set(ws._socket.remoteAddress, { count: 0 });
     }
 
+    console.log("rateLitmit");
+    console.log(rateLitmit);
+
+    console.log("blacklist");
+    console.log(blackList);
+
     clients.add(ws);
 
     ws.on("message", async (data) => {
