@@ -238,14 +238,16 @@ wss.on("connection", (ws, req) => {
 
     const real_ip = req.headers['x-real-ip']
 
-    console.log(blackList);
-    console.log(rateLimit);
+   
 
     if (blackList.has(real_ip)) {
         ws.close();
     } else {
-        rateLimit.set(real_ip, { count: 0 });
+        if (!rateLimit.has(real_ip)) {
+            rateLimit.set(real_ip, { count: 0 });
+        }
     }
+    
 
     console.log("rateLimit");
     console.log(rateLimit);
