@@ -234,10 +234,10 @@ const wss = new WebSocket.Server({
     server,
 });
 
-wss.on("connection", (ws) => {
+wss.on("connection", (ws, req) => {
     
     
-    console.log(ws.headers['x-forwarded-for']);
+    console.log(req.headers['x-forwarded-for']);
 
     clients.add(ws);
 
