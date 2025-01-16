@@ -237,7 +237,7 @@ const wss = new WebSocket.Server({
 wss.on("connection", (ws, req) => {
     
     
-    console.log(req.headers);
+    console.log(ws.headers);
 
     clients.add(ws);
 
