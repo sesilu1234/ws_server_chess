@@ -241,8 +241,8 @@ wss.on("connection", (ws) => {
         rateLimit.set(ws._socket.remoteAddress, { count: 0 });
     }
 
-    console.log("rateLitmit");
-    console.log(rateLitmit);
+    console.log("rateLimit");
+    console.log(rateLimit);
 
     console.log("blacklist");
     console.log(blackList);
