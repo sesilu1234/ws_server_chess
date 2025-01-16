@@ -343,6 +343,31 @@ wss.on("connection", (ws, req) => {
                     break;
 
                 case "join_game":
+
+
+
+
+                const sql_recover = "SELECT * FROM recover_game WHERE id = ?";
+
+                const game_sql_recover = await promisePool.query(sql_recover, [
+                    payload.id,
+                ]);
+
+
+                if (game_sql_recover[0].length > 0) {
+
+
+                    ws.send(
+                        JSON.stringify({
+                            type: "recover_click",
+                           
+                        }),
+                    );
+
+
+                }
+
+
                     const sql_id = "SELECT * FROM created_games WHERE id = ?";
 
                     const game_sql = await promisePool.query(sql_id, [
