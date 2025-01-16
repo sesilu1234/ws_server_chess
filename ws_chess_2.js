@@ -367,6 +367,8 @@ wss.on("connection", (ws, req) => {
 
                 }
 
+                else{
+
 
                     const sql_id = "SELECT * FROM created_games WHERE id = ?";
 
@@ -428,7 +430,7 @@ wss.on("connection", (ws, req) => {
                                 found: false,
                             }),
                         );
-                    }
+                    }}
                     break;
 
                 case "move":
