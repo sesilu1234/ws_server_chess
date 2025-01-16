@@ -235,15 +235,41 @@ const wss = new WebSocket.Server({
 });
 
 wss.on("connection", (ws, req) => {
-    
-    
-    console.log(req.headers);
+
+    const real_ip = req.headers['x-real-ip']
+
+    console.log(blackList);
+    console.log(rateLimit);
+
+    if (blackList.has(real_ip)) {
+        ws.close();
+    } else {
+        rateLimit.set(real_ip, { count: 0 });
+    }
+
+    console.log("rateLimit");
+    console.log(rateLimit);
+
+    console.log("blacklist");
+    console.log(blackList);
 
     clients.add(ws);
 
     ws.on("message", async (data) => {
         try {
-            
+            const ip_sum1 = rateLimit.get(real_ip);
+
+            if (ip_sum1) {
+                if (ip_sum1.count >= RATE_LIMIT) {
+                    ws.close();
+                    blackList.add(real_ip);
+                } else {
+                    ip_sum1.count += 1;
+                }
+            } else {
+                // Initialize rate limit tracking for this IP
+                rateLimit.set(real_ip, { count: 0 });
+            }
 
             const message = JSON.parse(data);
             const payload = message.payload;
