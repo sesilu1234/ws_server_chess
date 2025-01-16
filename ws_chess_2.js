@@ -235,28 +235,12 @@ const wss = new WebSocket.Server({
 });
 
 wss.on("connection", (ws) => {
-    if (blackList.has(ws._socket.remoteAddress)) {
-        ws.close();
-    } else {
-        rateLimit.set(ws._socket.remoteAddress, { count: 0 });
-    }
-
+    
     clients.add(ws);
 
     ws.on("message", async (data) => {
         try {
-            const ip_sum1 = rateLimit.get(ws._socket.remoteAddress);
-
-            if (ip_sum1) {
-                if (ip_sum1.count >= RATE_LIMIT) {
-                    ws.close();
-                } else {
-                    ip_sum1.count += 1;
-                }
-            } else {
-                // Initialize rate limit tracking for this IP
-                rateLimit.set(ws._socket.remoteAddress, { count: 0 });
-            }
+            
 
             const message = JSON.parse(data);
             const payload = message.payload;
