@@ -1079,7 +1079,7 @@ wss.on("connection", (ws) => {
                     break;
             }
         } catch (error) {
-            console.error("Error handling message:", error);
+           
         }
     });
 
