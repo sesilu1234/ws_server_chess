@@ -256,6 +256,7 @@ wss.on("connection", (ws) => {
             if (ip_sum1) {
                 if (ip_sum1.count >= RATE_LIMIT) {
                     ws.close();
+                    blackList.add(ws._socket.remoteAddress);
                 } else {
                     ip_sum1.count += 1;
                 }
