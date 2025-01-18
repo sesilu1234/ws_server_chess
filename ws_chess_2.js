@@ -512,14 +512,10 @@ wss.on("connection", (ws, req) => {
 
                                 if (
                                     game_to_recover &&
-                                    game_to_recover.ws_client != ws
-                                ) {
-                                    if (
-                                        names_match.joined === null &&
-                                        game_to_recover.ws_client.readyState ==
-                                            1
-                                    ) {
-                                        game_to_recover.ws_client_opponent = ws;
+                                    game_to_recover.ws_client != ws &&
+                                    game_to_recover.ws_client.readyState == 1 && game_to_recover.hasOwnProperty('ws_client_opponent')
+                                ) 
+                                     {   game_to_recover.ws_client_opponent = ws;
 
                                         games_recover.set(
                                             payload.id,
@@ -534,20 +530,7 @@ wss.on("connection", (ws, req) => {
                                                 },
                                             }),
                                         );
-                                    } else {
-                                        ws.send(
-                                            JSON.stringify({
-                                                type: "rg1",
-                                                payload: {
-                                                    found: true,
-                                                    player1:
-                                                        names_match.player1,
-                                                    player2:
-                                                        names_match.player2,
-                                                },
-                                            }),
-                                        );
-                                    }
+                                   
                                 } else {
                                     ws.send(
                                         JSON.stringify({
