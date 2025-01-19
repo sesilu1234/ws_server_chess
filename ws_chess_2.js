@@ -513,7 +513,7 @@ wss.on("connection", (ws, req) => {
                                 if (
                                     game_to_recover &&
                                     game_to_recover.ws_client != ws &&
-                                    game_to_recover.ws_client.readyState == 1 && game_to_recover.hasOwnProperty('ws_client_opponent')
+                                    game_to_recover.ws_client.readyState == 1
                                 ) 
                                      {   game_to_recover.ws_client_opponent = ws;
 
