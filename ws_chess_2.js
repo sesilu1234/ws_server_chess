@@ -326,7 +326,7 @@ wss.on("connection", (ws, req) => {
                             time,
                         ]);
 
-                        
+                        writeLOG("Game inserted successfully with ID:", id);
                     } catch (error) {
                         writeERROR("Error inserting game:", error);
                     }
