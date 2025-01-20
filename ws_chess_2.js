@@ -3,7 +3,7 @@ const http = require("http");
 const WebSocket = require("ws");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
-const fs = require('fs');
+
 
 // Load environment variables from .env file
 dotenv.config();
