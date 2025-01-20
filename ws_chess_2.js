@@ -3,9 +3,24 @@ const http = require("http");
 const WebSocket = require("ws");
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
+const fs = require('fs');
 
 // Load environment variables from .env file
 dotenv.config();
+
+
+
+
+
+const logStream = fs.createWriteStream('logs_loki/chess_server.log', { flags: 'a' });
+
+const writeLOG = (...args) => {
+  logStream.write(`[LOG] ${new Date().toISOString()} - ${args.join(' ')}\n`);
+};
+
+const writeERROR = (...args) => {
+  logStream.write(`[ERROR] ${new Date().toISOString()} - ${args.join(' ')}\n`);
+};
 
 // For modality time_per_player :
 
@@ -51,7 +66,7 @@ setInterval(clear_Limits, 3600000);
 
 async function run_insertMongo(GameState) {
     try {
-        console.log("Connected to MongoDB");
+        
 
         const database = client.db("chess_recover_games");
         const gamesCollection = database.collection("games");
@@ -61,9 +76,9 @@ async function run_insertMongo(GameState) {
             GameState,
             { upsert: true },
         );
-        console.log(`Game state inserted`);
+        
     } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
+        writeERROR("Error connecting to MongoDB:", error);
     }
 }
 
@@ -85,7 +100,8 @@ const alive_ping = () => {
         }
     }
 
-    console.log("Ping sent to all active clients at", new Date().toISOString());
+    
+    
 };
 
 setInterval(() => {
@@ -93,7 +109,7 @@ setInterval(() => {
 }, 15000);
 
 const clearClients = () => {
-    console.log(
+    writeLOG(
         "Initiating clearing of clients. Number of clients:",
         clients.size,
     );
@@ -115,8 +131,9 @@ const clearClients = () => {
         }
     }
 
-    console.log("Cleared closed clients. Active clients:", clients.size);
-    console.log("Cleared closed games. Active games:", games.size);
+    writeLOG("Cleared closed clients. Active clients:", clients.size);
+    writeLOG("Cleared closed games. Active games:", games.size);
+    writeLOG("Blacklist:", blackList);
 };
 
 setInterval(clearClients, 3600000);
@@ -249,11 +266,8 @@ wss.on("connection", (ws, req) => {
     }
     
 
-    console.log("rateLimit");
-    console.log(rateLimit);
-
-    console.log("blacklist");
-    console.log(blackList);
+    
+    
 
     clients.add(ws);
 
@@ -312,9 +326,9 @@ wss.on("connection", (ws, req) => {
                             time,
                         ]);
 
-                        console.log("Game inserted successfully with ID:", id);
+                        
                     } catch (error) {
-                        console.error("Error inserting game:", error);
+                        writeERROR("Error inserting game:", error);
                     }
 
                     games.set(id, {
@@ -552,7 +566,7 @@ wss.on("connection", (ws, req) => {
                                         },
                                     }),
                                 );
-                                console.log("No game found with the given ID.");
+                                
                             }
 
                             break;
@@ -939,7 +953,7 @@ wss.on("connection", (ws, req) => {
                                         break;
 
                                     default:
-                                        console.log("Unknown action:");
+                                        
                                         break;
                                 }
 
@@ -1042,15 +1056,14 @@ wss.on("connection", (ws, req) => {
                                                 break;
 
                                             default:
-                                                console.log(
-                                                    "Accepted has an unexpected value",
-                                                );
+                                                
+
                                         }
 
                                         break;
 
                                     default:
-                                        console.log("Unknown action:");
+                                       
                                         break;
                                 }
 
@@ -1083,7 +1096,7 @@ wss.on("connection", (ws, req) => {
                                 break;
 
                             default:
-                                console.log("Unknown action:");
+                               
                                 break;
                         }
                     }
@@ -1094,12 +1107,12 @@ wss.on("connection", (ws, req) => {
                     break;
 
                 default:
-                    console.log("Unknown action:", message.type);
+                    writeLOG("Unknown action:", message.type);
                     break;
             }
         } catch (error) {
             
-                console.error('An error occurred:', error);
+                writeERROR('An error occurred:', error);
             
             
         }
@@ -1110,5 +1123,5 @@ wss.on("connection", (ws, req) => {
 
 // Start the HTTPS server
 server.listen(8080, () => {
-    console.log("WebSocket server is running on wss://localhost:8080");
+    writeLOG("WebSocket server is running on wss://localhost:8080");
 });
